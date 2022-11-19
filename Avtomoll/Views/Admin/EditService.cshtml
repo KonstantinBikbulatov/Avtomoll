@@ -1,0 +1,33 @@
+﻿@model Avtomoll.Models.ServiceViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegisterGuest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NativeCar" class="control-label"></label>
+                <input asp-for="NativeCar" class="form-control" />
+                <span asp-validation-for="NativeCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ForeignCar" class="control-label"></label>
+                <input asp-for="ForeignCar" class="form-control" />
+                <span asp-validation-for="ForeignCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeadTime" class="control-label"></label>
+                <input asp-for="LeadTime" class="form-control" />
+                <span asp-validation-for="LeadTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

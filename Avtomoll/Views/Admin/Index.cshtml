@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Avtomoll.Domains.GroupService>
+@{
+    ViewData["Title"] = "Админ";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Услуга
+            </th>
+            <th>
+                Отечественная
+            </th>
+            <th>
+                Иномарка
+            </th>
+            <th>
+                Время выполнения
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td style="font-size: 25px;">
+                    @Html.DisplayFor(modelItem => group.Name)
+                </td>
+                @foreach (var service in group.ServiceOfGroupService)
+                {
+                <tr>
+                    <td>
+                            @Html.DisplayFor(modelItem => service.Name)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => service.NativeCar)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => service.ForeignCar)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => service.LeadTime)
+                    </td>
+                    <td>
+                            @Html.ActionLink("Изменить", "EditService", new {  id=service.ServiceId  })
+                    </td>
+                </tr>
+                }
+            </tr>
+
+        }
+    </tbody>
+</table>
