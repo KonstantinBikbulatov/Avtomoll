@@ -34,8 +34,7 @@ namespace Avtomoll.DataAccessLayer
         {
             return _context
                 .Service
-                .Include(g => g.GroupService)
-                .ToList();
+                .Include(g => g.GroupService);
         }
 
         public Service Read(long id)
