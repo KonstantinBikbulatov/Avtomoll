@@ -16,12 +16,10 @@ namespace Avtomoll.DataAccessLayer
         {
             var serviceProvider = provider.GetRequiredService<IRepository<Service>>();
             var groupServiceProvider = provider.GetRequiredService<IRepository<GroupService>>();
-
             
             if (serviceProvider.GetList().Count() > 0)
                 return;
             
-
             var serviceJson = new DirectoryInfo("ServicesJson").GetFiles("services.json");
 
             foreach (var service in serviceJson)
@@ -54,7 +52,6 @@ namespace Avtomoll.DataAccessLayer
                     }
                 }
             }
-
         }
     }
 }
