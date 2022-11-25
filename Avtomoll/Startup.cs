@@ -68,14 +68,14 @@ namespace Avtomoll
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "Admin",
+                    pattern: "Admin/Page{page}",
+                    defaults: new { Controller = "Admin", action = "Index" });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-
-                endpoints.MapControllerRoute(
-                    name: "Admin",
-                    pattern: "Admin/Page{page}",
-                    defaults: new { Controller = "Admnin", action = "Index" });
             });
 
             using (var scope = app.ApplicationServices.CreateScope())
