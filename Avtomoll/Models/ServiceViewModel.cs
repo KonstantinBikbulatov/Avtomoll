@@ -1,5 +1,7 @@
 ﻿using Avtomoll.Domains;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Avtomoll.Models
@@ -8,6 +10,15 @@ namespace Avtomoll.Models
     {
         [HiddenInput(DisplayValue = false)]
         public long ServiceId { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+
+        public List<SelectListItem> ListGroups { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public int GroupServiceId { get; set; }
+        public GroupService GroupService { get; set; }
+        public string GroupName { get; set; }
 
         [Required()]
         [Display(Name = "Название услуги")]
@@ -24,15 +35,5 @@ namespace Avtomoll.Models
         [Required()]
         [Display(Name = "Время выполнения")]
         public string LeadTime { get; set; }
-
-        public ServiceViewModel(Service service)
-        {
-            ServiceId = service.ServiceId;
-            Name = service.Name;
-            NativeCar = service.NativeCar;
-            ForeignCar = service.ForeignCar;
-            LeadTime = service.LeadTime;
-
-        }
     }
 }

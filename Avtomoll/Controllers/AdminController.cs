@@ -2,6 +2,8 @@
 using Avtomoll.Domains;
 using Avtomoll.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace Avtomoll.Controllers
 {
@@ -26,8 +28,41 @@ namespace Avtomoll.Controllers
         public IActionResult EditService(long id)
         {
             var service = _repositoryService.Read(id);
-            ServiceViewModel serviceViewModel = new ServiceViewModel(service);
+            var listGroup = _repositoryGroupService.GetList();
+            ServiceViewModel serviceViewModel = new ServiceViewModel
+            {
+                ServiceId = id,
+                Name = service.Name,
+                NativeCar = service.NativeCar,
+                ForeignCar = service.ForeignCar,
+                LeadTime = service.LeadTime,
+                GroupName = service.GroupService.Name,
+                ListGroups = listGroup
+                .Select(
+                c => new SelectListItem()
+                {
+                    Text = c.Name,
+                    Value = c.GroupServiceId.ToString()
+                })
+                .Where(g => g.Text != service.GroupService.Name)
+                .ToList()
+        };
+            
             return View(serviceViewModel);
+        }
+        [HttpPost]
+        public IActionResult EditService(ServiceViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var group = _repositoryGroupService.Read(model.GroupServiceId);
+                model.GroupService = group;
+                Service service = new Service(model);
+                _repositoryService.Update(service);
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View();
         }
     }
 }

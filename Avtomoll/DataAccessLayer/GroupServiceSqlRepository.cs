@@ -35,10 +35,14 @@ namespace Avtomoll.DataAccessLayer
         {
             return _context.GroupService.Include(g => g.ServiceOfGroupService);
         }
+        public IEnumerable<GroupService> GetListGroup()
+        {
+            return _context.GroupService.ToList();
+        }
 
         public GroupService Read(long id)
         {
-            throw new System.NotImplementedException();
+            return _context.GroupService.Find(id);
         }
 
         public void Update(GroupService model)

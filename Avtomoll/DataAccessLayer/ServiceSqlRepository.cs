@@ -1,5 +1,6 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
+using Avtomoll.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +40,18 @@ namespace Avtomoll.DataAccessLayer
 
         public Service Read(long id)
         {
-            return _context.Service.FirstOrDefault(s => s.ServiceId == id);
+            return _context.Service.Include(g => g.GroupService).FirstOrDefault(s => s.ServiceId == id);
         }
 
         public void Update(Service model)
         {
-            throw new System.NotImplementedException();
+            var entry = _context.Service.FirstOrDefault(s => s.ServiceId == model.ServiceId);
+            entry.Name = model.Name;
+            entry.ForeignCar = model.ForeignCar;
+            entry.NativeCar = model.NativeCar;
+            entry.LeadTime = model.LeadTime;
+            entry.GroupService = model.GroupService;
+            _context.SaveChanges();
         }
     }
 }
