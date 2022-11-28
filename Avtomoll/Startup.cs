@@ -2,6 +2,7 @@ using Avtomoll.Abstract;
 using Avtomoll.Data;
 using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
+using Avtomoll.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +42,7 @@ namespace Avtomoll
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
+            services.AddTransient<IRepository<ManagerViewModel>, ManagerJsonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
