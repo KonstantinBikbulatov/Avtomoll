@@ -33,14 +33,17 @@ namespace Avtomoll
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
+            services.AddTransient<IRepository<ServiceHistory>, ServiceHistoryFakeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +70,11 @@ namespace Avtomoll
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "ServiceManager",
+                    pattern: "SM",
+                    defaults: new { Controller = "ServiceManager", action = "Index" });
+
                 endpoints.MapControllerRoute(
                     name: "Admin",
                     pattern: "Admin/Page{page}",
