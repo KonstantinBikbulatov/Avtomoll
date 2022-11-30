@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Avtomoll.ViewModel.Manager.ServiceHistoryViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Заявки";
 }
 
-<h1>Index</h1>
+<h1>Заявки</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -43,9 +40,8 @@
                 @Html.DisplayFor(modelItem => item.OrderTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) 
+                @Html.ActionLink("Details", "Details", new { id = item.id })
             </td>
         </tr>
 }
