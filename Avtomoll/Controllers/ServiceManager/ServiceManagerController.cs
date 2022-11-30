@@ -9,12 +9,15 @@ namespace Avtomoll.Controllers.ServiceManager
 {
     public class ServiceManagerController : Controller
     {
-        public ServiceManagerController(IRepository<ServiceHistory> repository)
+        
+        public ServiceManagerController(IRepository<ServiceHistory> repository, IRepository<Service> services)
         {
             Repository = repository;
+            Services = services;
         }
 
         private IRepository<ServiceHistory> Repository { get; set; }
+        public IRepository<Service> Services { get; }
 
         public IActionResult Index()
         {
@@ -41,13 +44,23 @@ namespace Avtomoll.Controllers.ServiceManager
             };
             Repository.Update(service);
 
-            return RedirectToAction("Details");
+            return RedirectToAction("Details", model.id);
         }
 
         public IActionResult Details(long id)
         {
             return View(new ServiceHistoryViewModel(Repository.Read(id)));
         }
-            
+
+        public IActionResult CancelService(long ServiceId, long LeadId)
+        {
+            var lead = Repository.Read(LeadId);
+
+            lead.DeleteService(ServiceId);
+
+            return RedirectToAction("Details", LeadId);
+        }
+
+
     }
 }

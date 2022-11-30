@@ -6,7 +6,7 @@
 
 <h1>Details</h1>
 
-<div>
+    <div>
     <h4>ServiceHistoryViewModel</h4>
     <hr />
     <dl class="row">
@@ -67,6 +67,55 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id })
+    <table class="table">
+        <thead>
+         <tr>
+            <th>Service</th>
+            <th>ServiceProperty1</th>
+            <th>ServiceProperty2</th>
+            <th>Service price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var service in Model.Services)
+       {
+           <tr>
+               <td>
+                        @Html.DisplayFor(model => service.GroupService.Name)
+               </td>
+                <td>
+                        @Html.DisplayFor(model => service.Name)
+                </td>
+                <td>
+                        @Html.DisplayFor(model => service.LeadTime)
+                </td>
+                <td>
+                    @if(Model.TypeCar == "Отечественная"){
+                        @Html.DisplayFor(model => service.NativeCar)
+                    }
+                    else{
+                        @Html.DisplayFor(model => service.ForeignCar)
+                    }
+                </td>
+                <td>
+                     @Html.ActionLink("Отменить", "CancelService", new { ServiceId = service.ServiceId, LeadId = Model.id  }) 
+                </td>
+           </tr>
+       }
+       <tr>
+           <td></td>
+           <td></td>
+           <td>
+               <p>Add Service</p>
+           </td>
+           <td></td>
+           <td></td>
+       </tr>
+       </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })
     <a asp-action="Index">Back to List</a>
 </div>

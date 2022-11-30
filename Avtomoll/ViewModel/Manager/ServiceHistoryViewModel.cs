@@ -12,6 +12,10 @@ namespace Avtomoll.ViewModel.Manager
 {
     public class ServiceHistoryViewModel
     {
+        public ServiceHistoryViewModel()
+        {
+
+        }
         public ServiceHistoryViewModel(ServiceHistory rowModel)
         {
             id = rowModel.OrderNumber;

@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Avtomoll.Domains
 {
@@ -21,5 +24,23 @@ namespace Avtomoll.Domains
         public DateTime VisitTime { get; set; }
         public int PriceService { get; set; }
         public long OrderNumber { get; set; }
+
+        public void DeleteService(long serviceId)
+        {
+            List<Service> services = JsonConvert.DeserializeObject<List<Service>>(Services);
+
+            services.Remove(services.First(s => s.ServiceId == serviceId));
+
+            Services = JsonConvert.SerializeObject(services);
+        }
+
+        public void AddService(Service newService)
+        {
+            List<Service> services = JsonConvert.DeserializeObject<List<Service>>(Services);
+
+            services.Add(newService);
+
+            Services = JsonConvert.SerializeObject(services);
+        }
     }
 }
