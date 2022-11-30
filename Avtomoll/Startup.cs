@@ -42,7 +42,7 @@ namespace Avtomoll
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
-            services.AddTransient<IRepository<ManagerViewModel>, ManagerJsonRepository>();
+            services.AddTransient<IRepository<Manager>, ManagerSqlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

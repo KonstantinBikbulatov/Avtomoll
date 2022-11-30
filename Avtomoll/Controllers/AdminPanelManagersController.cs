@@ -9,10 +9,10 @@ namespace Avtomoll.Controllers
 {
     public class AdminPanelManagersController : Controller
     {
-        private readonly IRepository<ManagerViewModel> _repository;
+        private readonly IRepository<Manager> _repository;
 
         // 3) Инъекция зависимостей
-        public AdminPanelManagersController(IRepository<ManagerViewModel> repository)
+        public AdminPanelManagersController(IRepository<Manager> repository)
         {
             _repository = repository;
         }
@@ -22,10 +22,12 @@ namespace Avtomoll.Controllers
             return View();
         }
 
-        public IActionResult List()
+        public IActionResult List(long id)
         {
-            var manager = _repository.GetList();
-            return View(manager);
+            var entity = _repository.Read(id);
+            var model = new ManagerViewModel(entity);
+
+            return View(model);
         }
 
         public IActionResult Create()
@@ -33,14 +35,15 @@ namespace Avtomoll.Controllers
             return View();
         }
 
-        // Home / Create
+        
         [HttpPost]
-        public IActionResult Create(ManagerViewModel model)
+        public IActionResult Create(Manager model)
         {
             // валидация данных на сервере (на клиенте недостаточно безопасно)
             if (ModelState.IsValid)
             {
                 _repository.Create(model);
+
                 return RedirectToAction("List", "AdminPanelManagers");
             }
 
@@ -55,7 +58,7 @@ namespace Avtomoll.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditManager(ManagerViewModel model)
+        public IActionResult EditManager(Manager model)
         {
             if (ModelState.IsValid)
             {

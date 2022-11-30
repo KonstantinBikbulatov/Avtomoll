@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Avtomoll.Domains;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
@@ -7,7 +8,7 @@ namespace Avtomoll.Models
 {
     public class ManagerViewModel
     {
-
+        [HiddenInput(DisplayValue = false)]
         public long ManagerId { get; set; }
 
         [Required(ErrorMessage = "Выберите роль")]
@@ -34,5 +35,17 @@ namespace Avtomoll.Models
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждение пароля")]
         public string PasswordConfirmation { get; set; }
+
+        public ManagerViewModel() { }
+
+        public ManagerViewModel(Manager model)
+        {
+            ManagerId = model.ManagerId;
+            RoleManager = model.RoleManager;
+            Name = model.Name;
+            Email = model.Email;
+            Password = model.Password;
+            PasswordConfirmation = model.PasswordConfirmation;
+        }
     }
 }

@@ -15,15 +15,5 @@ namespace Avtomoll.Domains
         public string Email { get; set; }
         public string Password { get; set; }
         public string PasswordConfirmation { get; set; }
-  
-        public Manager(ManagerViewModel model)
-        {
-            ManagerId = model.ManagerId;
-            RoleManager = model.RoleManager;
-            Name = model.Name;
-            Email = model.Email;
-            Password = model.Password;
-            PasswordConfirmation = model.PasswordConfirmation;
-        }
     }
 }
