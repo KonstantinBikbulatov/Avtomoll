@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Avtomoll.Domains.Service>
+
+@{
+    ViewData["Title"] = "AddServicesList";
+}
+
+<h1>AddServicesList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NativeCar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ForeignCar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeadTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NativeCar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ForeignCar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeadTime)
+            </td>
+            <td>
+                @Html.ActionLink("Добавить", "AddService", new { LeadId = ViewBag.LeadId, ServiceId = item.ServiceId });
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
