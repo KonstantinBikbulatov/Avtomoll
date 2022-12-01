@@ -70,6 +70,11 @@ namespace Avtomoll
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                  name: "AdminPanelManagers",
+                  pattern: "APM",
+                  defaults: new { Controller = "AdminPanelManagers", action = "Index" });
+
+                endpoints.MapControllerRoute(
                     name: "Admin",
                     pattern: "Admin/Page{page}",
                     defaults: new { Controller = "Admin", action = "Index" });

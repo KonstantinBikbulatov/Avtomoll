@@ -22,10 +22,10 @@ namespace Avtomoll.Controllers
             return View();
         }
 
-        public IActionResult List(long id)
+        public IActionResult List()
         {
-            var entity = _repository.Read(id);
-            var model = new ManagerViewModel(entity);
+            var model = _repository.GetList().
+               Select(s => new ManagerViewModel(s));
 
             return View(model);
         }
