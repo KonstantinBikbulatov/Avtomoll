@@ -1,51 +1,54 @@
-﻿@model IEnumerable<Avtomoll.Domains.Service>
-
+﻿@model IEnumerable<Avtomoll.Domains.GroupService>
 @{
-    ViewData["Title"] = "AddServicesList";
+    ViewData["Title"] = "Service Manager";
 }
 
-<h1>AddServicesList</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Услуга
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NativeCar)
+                Отечественная
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ForeignCar)
+                Иномарка
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LeadTime)
+                Время выполнения
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NativeCar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ForeignCar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeadTime)
-            </td>
-            <td>
-                @Html.ActionLink("Добавить", "AddService", new { LeadId = ViewBag.LeadId, ServiceId = item.ServiceId });
-            </td>
-        </tr>
-}
+        @foreach (var group in Model)
+        {
+                <tr>
+                    <td style="font-size: 25px;">
+                        @Html.DisplayFor(modelItem => group.Name)
+                    </td>
+                @foreach (var service in group.ServiceOfGroupService)
+                {
+                        <tr>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.Name)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.NativeCar)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.ForeignCar)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.LeadTime)
+                            </td>
+                            <td>
+                            @Html.ActionLink("Add", "AddService", new {LeadId = ViewBag.LeadId, ServiceId = service.ServiceId})
+                            </td>
+                        </tr>
+                }
+                </tr>
+
+        }
     </tbody>
 </table>

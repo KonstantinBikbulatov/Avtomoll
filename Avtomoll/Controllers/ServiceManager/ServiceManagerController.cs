@@ -10,14 +10,16 @@ namespace Avtomoll.Controllers.ServiceManager
     public class ServiceManagerController : Controller
     {
         
-        public ServiceManagerController(IRepository<ServiceHistory> repository, IRepository<Service> services)
+        public ServiceManagerController(IRepository<ServiceHistory> repository, IRepository<Service> services, IRepository<GroupService> repositoryGroupService)
         {
             Repository = repository;
             Services = services;
+            RepositoryGroupService = repositoryGroupService;
         }
 
         private IRepository<ServiceHistory> Repository { get; set; }
         public IRepository<Service> Services { get; }
+        public IRepository<GroupService> RepositoryGroupService { get; }
 
         public IActionResult Index()
         {
@@ -65,12 +67,11 @@ namespace Avtomoll.Controllers.ServiceManager
         public IActionResult AddServicesList(long LeadId)
         {
             ViewBag.LeadId = LeadId;
-            return View(Services.GetList());
+            return View(RepositoryGroupService.GetList());
         }
 
         public IActionResult AddService(long LeadId, long ServiceId)
         {
-            // логика удаления
             var lead = Repository.Read(LeadId);
             var service = Services.Read(ServiceId);
             lead.AddService(service);
