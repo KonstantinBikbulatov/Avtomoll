@@ -21,9 +21,11 @@ namespace Avtomoll.Controllers.ServiceManager
         public IRepository<Service> Services { get; }
         public IRepository<GroupService> RepositoryGroupService { get; }
 
-        public IActionResult Index()
+        public IActionResult Index(string status = "", string carService = "")
         {
-            return View(Repository.GetList().Select(s => new ServiceHistoryViewModel(s)));
+            var model = Repository.GetList().Where(s => status == "" || s.Status == status).Select(s => new ServiceHistoryViewModel(s));
+            model = model.Where(s => carService == "" || s.CarService.Address == carService);
+            return View(model);
         }
 
 

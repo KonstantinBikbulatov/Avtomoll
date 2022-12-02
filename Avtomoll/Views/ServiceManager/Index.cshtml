@@ -5,7 +5,14 @@
 }
 
 <h1>Заявки</h1>
-
+<div>
+<div>
+    @await Component.InvokeAsync("LeadsStatusFilter")
+</div>
+<div>
+    @await Component.InvokeAsync("LeadsCarServicesFilter")
+</div>
+</div>
 <table class="table">
     <thead>
         <tr>

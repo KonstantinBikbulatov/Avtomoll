@@ -1,0 +1,43 @@
+﻿using Avtomoll.Abstract;
+using Avtomoll.Domains;
+using System.Collections.Generic;
+
+namespace Avtomoll.DataAccessLayer
+{
+    public class CarServiceSqlRepository : IRepository<CarService>
+    {
+        ApplicationDbContext context;
+
+        public CarServiceSqlRepository(ApplicationDbContext context)
+        {
+            this.context = context;
+        }
+
+        public void Create(CarService model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(long id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CarService FindByName(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<CarService> GetList() => context.CarService;
+
+        public CarService Read(long id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(CarService model)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+}
