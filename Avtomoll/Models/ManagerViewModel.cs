@@ -9,7 +9,7 @@ namespace Avtomoll.Models
     public class ManagerViewModel
     {
         [HiddenInput(DisplayValue = false)]
-        public long ManagerId { get; set; }
+        public long? ManagerId { get; set; }
 
         [Required(ErrorMessage = "Выберите роль")]
         [Display(Name = "Выберите роль менеджера")]

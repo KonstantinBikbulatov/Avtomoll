@@ -30,19 +30,31 @@ namespace Avtomoll.Controllers
             return View(model);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(long id)
         {
-            return View();
+            var manager = _repository.Read(id);
+
+            return View(manager);
         }
 
         
         [HttpPost]
-        public IActionResult Create(Manager model)
+        public IActionResult Create(ManagerViewModel model)
         {
             // валидация данных на сервере (на клиенте недостаточно безопасно)
             if (ModelState.IsValid)
             {
-                _repository.Create(model);
+                Manager manager = new Manager()
+                {
+                    ManagerId = model.ManagerId,
+                    RoleManager = model.RoleManager,
+                    Name = model.Name,
+                    Email = model.Email,
+                    Password = model.Password,
+                    PasswordConfirmation= model.PasswordConfirmation,
+                };
+
+                _repository.Create(manager);
 
                 return RedirectToAction("List", "AdminPanelManagers");
             }
@@ -52,9 +64,9 @@ namespace Avtomoll.Controllers
 
         public IActionResult EditManager(long id)
         {
-            var student = _repository.Read(id);
+            var manager = _repository.Read(id);
 
-            return View(student);
+            return View(manager);
         }
 
         [HttpPost]
