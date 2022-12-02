@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Avtomoll.ViewModel.Manager.ServiceHistoryViewModel>
+
+@{
+    ViewData["Title"] = "Заявки";
+}
+
+<h1>Заявки</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) 
+                @Html.ActionLink("Details", "Details", new { id = item.id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

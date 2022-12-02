@@ -1,0 +1,121 @@
+﻿@model Avtomoll.ViewModel.Manager.ServiceHistoryViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+    <div>
+    <h4>ServiceHistoryViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientPhone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClientPhone)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CarBrand)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CarBrand)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeCar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeCar)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PriceService)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PriceService)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OrderTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.VisitTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VisitTime)
+        </dd>
+    </dl>
+</div>
+<div>
+    <table class="table">
+        <thead>
+         <tr>
+            <th>Service</th>
+            <th>ServiceProperty1</th>
+            <th>ServiceProperty2</th>
+            <th>Service price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var service in Model.Services)
+       {
+           <tr>
+               <td>
+                        @Html.DisplayFor(model => service.GroupService.Name)
+               </td>
+                <td>
+                        @Html.DisplayFor(model => service.Name)
+                </td>
+                <td>
+                        @Html.DisplayFor(model => service.LeadTime)
+                </td>
+                <td>
+                    @if(Model.TypeCar == "Отечественная"){
+                        @Html.DisplayFor(model => service.NativeCar)
+                    }
+                    else{
+                        @Html.DisplayFor(model => service.ForeignCar)
+                    }
+                </td>
+                <td>
+                     @Html.ActionLink("Отменить", "CancelService", new { ServiceId = service.ServiceId, LeadId = Model.id  }) 
+                </td>
+           </tr>
+       }
+       <tr>
+           <td></td>
+           <td></td>
+           <td>
+               <p>Add Service</p>
+           </td>
+           <td></td>
+           <td></td>
+       </tr>
+       </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })
+    <a asp-action="Index">Back to List</a>
+</div>
