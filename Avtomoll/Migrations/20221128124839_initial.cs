@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
-namespace Avtomoll.Data.Migrations
+namespace Avtomoll.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,11 +47,38 @@ namespace Avtomoll.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CarServices",
+                columns: table => new
+                {
+                    CarServiceId = table.Column<Guid>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    OpeningTime = table.Column<string>(nullable: true),
+                    ClosingTime = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarServices", x => x.CarServiceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupServices",
+                columns: table => new
+                {
+                    GroupServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupServices", x => x.GroupServiceId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +99,7 @@ namespace Avtomoll.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +179,112 @@ namespace Avtomoll.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ClientCars",
+                columns: table => new
+                {
+                    ClientCarId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientCars", x => x.ClientCarId);
+                    table.ForeignKey(
+                        name: "FK_ClientCars_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    MessageId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_Message_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    ServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    NativeCar = table.Column<string>(nullable: true),
+                    ForeignCar = table.Column<string>(nullable: true),
+                    LeadTime = table.Column<string>(nullable: true),
+                    GroupServiceId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.ServiceId);
+                    table.ForeignKey(
+                        name: "FK_Services_GroupServices_GroupServiceId",
+                        column: x => x.GroupServiceId,
+                        principalTable: "GroupServices",
+                        principalColumn: "GroupServiceId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServicesHistory",
+                columns: table => new
+                {
+                    ServiceHistoryId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Service = table.Column<string>(nullable: true),
+                    CarServiceId = table.Column<Guid>(nullable: true),
+                    ClientCarId = table.Column<Guid>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    TypeCar = table.Column<string>(nullable: true),
+                    NameClient = table.Column<string>(nullable: true),
+                    PhoneClient = table.Column<string>(nullable: true),
+                    CarBrand = table.Column<string>(nullable: true),
+                    OrderTime = table.Column<TimeSpan>(nullable: false),
+                    VisitTime = table.Column<TimeSpan>(nullable: false),
+                    PriceService = table.Column<int>(nullable: true),
+                    OrderNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServicesHistory", x => x.ServiceHistoryId);
+                    table.ForeignKey(
+                        name: "FK_ServicesHistory_CarServices_CarServiceId",
+                        column: x => x.CarServiceId,
+                        principalTable: "CarServices",
+                        principalColumn: "CarServiceId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ServicesHistory_ClientCars_ClientCarId",
+                        column: x => x.ClientCarId,
+                        principalTable: "ClientCars",
+                        principalColumn: "ClientCarId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ServicesHistory_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +323,36 @@ namespace Avtomoll.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientCars_UserId",
+                table: "ClientCars",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Message_UserId",
+                table: "Message",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_GroupServiceId",
+                table: "Services",
+                column: "GroupServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServicesHistory_CarServiceId",
+                table: "ServicesHistory",
+                column: "CarServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServicesHistory_ClientCarId",
+                table: "ServicesHistory",
+                column: "ClientCarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServicesHistory_UserId",
+                table: "ServicesHistory",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +373,25 @@ namespace Avtomoll.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Message");
+
+            migrationBuilder.DropTable(
+                name: "Services");
+
+            migrationBuilder.DropTable(
+                name: "ServicesHistory");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "GroupServices");
+
+            migrationBuilder.DropTable(
+                name: "CarServices");
+
+            migrationBuilder.DropTable(
+                name: "ClientCars");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

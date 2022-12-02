@@ -4,14 +4,16 @@ using Avtomoll.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Avtomoll.Data.Migrations
+namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221128124839_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,6 +75,31 @@ namespace Avtomoll.Data.Migrations
                     b.ToTable("GroupServices");
                 });
 
+            modelBuilder.Entity("Avtomoll.Domains.Message", b =>
+                {
+                    b.Property<Guid>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Message");
+                });
+
             modelBuilder.Entity("Avtomoll.Domains.Service", b =>
                 {
                     b.Property<long>("ServiceId")
@@ -104,9 +131,10 @@ namespace Avtomoll.Data.Migrations
 
             modelBuilder.Entity("Avtomoll.Domains.ServiceHistory", b =>
                 {
-                    b.Property<Guid>("ServiceHistoryId")
+                    b.Property<long>("ServiceHistoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CarBrand")
                         .HasColumnType("nvarchar(max)");
@@ -132,8 +160,8 @@ namespace Avtomoll.Data.Migrations
                     b.Property<int?>("PriceService")
                         .HasColumnType("int");
 
-                    b.Property<long?>("ServiceId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Service")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -152,8 +180,6 @@ namespace Avtomoll.Data.Migrations
                     b.HasIndex("CarServiceId");
 
                     b.HasIndex("ClientCarId");
-
-                    b.HasIndex("ServiceId");
 
                     b.HasIndex("UserId");
 
@@ -367,6 +393,13 @@ namespace Avtomoll.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("Avtomoll.Domains.Message", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("Avtomoll.Domains.Service", b =>
                 {
                     b.HasOne("Avtomoll.Domains.GroupService", "GroupService")
@@ -383,10 +416,6 @@ namespace Avtomoll.Data.Migrations
                     b.HasOne("Avtomoll.Domains.ClientCar", "ClientCar")
                         .WithMany()
                         .HasForeignKey("ClientCarId");
-
-                    b.HasOne("Avtomoll.Domains.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()

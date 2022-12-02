@@ -4,22 +4,59 @@ using Avtomoll.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Avtomoll.Data.Migrations
+namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221120104915_AddServices")]
-    partial class AddServices
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.30")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Avtomoll.Domains.CarService", b =>
+                {
+                    b.Property<Guid>("CarServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClosingTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OpeningTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CarServiceId");
+
+                    b.ToTable("CarServices");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.ClientCar", b =>
+                {
+                    b.Property<Guid>("ClientCarId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ClientCarId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ClientCars");
+                });
 
             modelBuilder.Entity("Avtomoll.Domains.GroupService", b =>
                 {
@@ -34,6 +71,31 @@ namespace Avtomoll.Data.Migrations
                     b.HasKey("GroupServiceId");
 
                     b.ToTable("GroupServices");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.Message", b =>
+                {
+                    b.Property<Guid>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Avtomoll.Domains.Service", b =>
@@ -63,6 +125,63 @@ namespace Avtomoll.Data.Migrations
                     b.HasIndex("GroupServiceId");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.ServiceHistory", b =>
+                {
+                    b.Property<long>("ServiceHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CarBrand")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CarServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ClientCarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("NameClient")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("OrderTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("PhoneClient")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PriceService")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Service")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeCar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<TimeSpan>("VisitTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("ServiceHistoryId");
+
+                    b.HasIndex("CarServiceId");
+
+                    b.HasIndex("ClientCarId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ServicesHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -265,11 +384,40 @@ namespace Avtomoll.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Avtomoll.Domains.ClientCar", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.Message", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("Avtomoll.Domains.Service", b =>
                 {
                     b.HasOne("Avtomoll.Domains.GroupService", "GroupService")
                         .WithMany("ServiceOfGroupService")
                         .HasForeignKey("GroupServiceId");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.ServiceHistory", b =>
+                {
+                    b.HasOne("Avtomoll.Domains.CarService", "CarService")
+                        .WithMany()
+                        .HasForeignKey("CarServiceId");
+
+                    b.HasOne("Avtomoll.Domains.ClientCar", "ClientCar")
+                        .WithMany()
+                        .HasForeignKey("ClientCarId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
