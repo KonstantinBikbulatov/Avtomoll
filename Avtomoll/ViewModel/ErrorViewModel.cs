@@ -1,6 +1,6 @@
 using System;
 
-namespace Avtomoll.Models
+namespace Avtomoll.ViewModel
 {
     public class ErrorViewModel
     {

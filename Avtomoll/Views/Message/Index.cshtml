@@ -1,0 +1,48 @@
+﻿@using Avtomoll.Heplers
+@model Avtomoll.ViewModel.ListMassageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Имя
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var message in Model.MessagesForPage)
+            {
+            <tr>
+                <td>
+                        @Html.DisplayFor(modelItem => message.Name)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => message.Email)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => message.Phone)
+                </td>
+            </tr>
+            }
+        </tr>
+    </tbody>
+</table>
+
+@Html.PaginationBootstrap(Model)

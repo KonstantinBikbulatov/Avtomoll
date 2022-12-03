@@ -1,4 +1,5 @@
-﻿using Avtomoll.Models;
+﻿using Avtomoll.Domains;
+using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,6 +20,17 @@ namespace Avtomoll.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult FeedBack(MessageViewModel message)
+        {
+            return View(message);
+        }
+
+        [HttpPost]
+        public IActionResult PostMessage(Message message)
         {
             return View();
         }

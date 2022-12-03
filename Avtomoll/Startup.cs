@@ -1,5 +1,5 @@
 using Avtomoll.Abstract;
-using Avtomoll.Data;
+//using Avtomoll.Data;
 using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +43,7 @@ namespace Avtomoll
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
+            services.AddTransient<IRepository<Message>, MessageSqlRepository>();
             services.AddTransient<IRepository<ServiceHistory>, ServiceHistoryFakeRepository>();
             services.AddTransient<IRepository<CarService>, CarServiceSqlRepository>();
         }
@@ -71,6 +72,11 @@ namespace Avtomoll
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Manager",
+                    pattern: "Manager/Page{page}",
+                    defaults: new { Controller = "Manager", action = "Index" });
+
                 endpoints.MapControllerRoute(
                     name: "ServiceManager",
                     pattern: "SM",
