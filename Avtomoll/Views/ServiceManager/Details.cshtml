@@ -67,6 +67,12 @@
     </dl>
 </div>
 <div>
+    @if (Model.Services == null)
+    {
+        <p>@Html.ActionLink("Add", "AddServicesList", new { LeadId = Model.id})</p>
+    }
+    else
+    {
     <table class="table">
         <thead>
          <tr>
@@ -116,6 +122,7 @@
        </tr>
        </tbody>
     </table>
+    }
 </div>
 <div>
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })

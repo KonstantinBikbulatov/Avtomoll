@@ -33,7 +33,7 @@ namespace Avtomoll.DataAccessLayer
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<ServiceHistory> GetList() => leads;
+        public IEnumerable<ServiceHistory> GetList() => context.ServiceHistory;
 
         public ServiceHistory Read(long id) => leads.Find(id);
 
@@ -47,6 +47,7 @@ namespace Avtomoll.DataAccessLayer
             serv.Status = serv.Status;
             serv.VisitTime = model.VisitTime;
             serv.TypeCar = model.TypeCar;
+            serv.Service = model.Service;
 
             context.SaveChanges();
         }

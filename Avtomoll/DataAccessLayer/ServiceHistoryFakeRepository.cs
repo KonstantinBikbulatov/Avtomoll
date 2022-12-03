@@ -67,7 +67,7 @@ namespace Avtomoll.DataAccessLayer
                     PhoneClient = "8922323239",
                     ServiceHistoryId = 0,
                     PriceService = 0,
-                    Services = CreateFakeServiceJson(),
+                    Service = CreateFakeServiceJson(),
                     Status = "В ожидании",
                     TypeCar = "Иномарка",
                     VisitTime = new DateTime(2022, 12, 01, 10, 0, 0)
@@ -94,7 +94,7 @@ namespace Avtomoll.DataAccessLayer
                     PhoneClient = "8922323239",
                     ServiceHistoryId = 1,
                     PriceService = 0,
-                    Services = CreateFakeServiceJson(),
+                    Service = CreateFakeServiceJson(),
                     Status = "В ожидании",
                     TypeCar = "Иномарка",
                     VisitTime = new DateTime(2022, 11, 28, 19, 0, 0)
@@ -114,7 +114,7 @@ namespace Avtomoll.DataAccessLayer
                     PhoneClient = "8922323239",
                     ServiceHistoryId = 3,
                     PriceService = 0,
-                    Services = CreateFakeServiceJson(),
+                    Service = CreateFakeServiceJson(),
                     Status = "Одобренные",
                     TypeCar = "Отечественная",
                     VisitTime = new DateTime(2022, 12, 12, 10, 0, 0)

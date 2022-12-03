@@ -39,10 +39,13 @@ namespace Avtomoll.ViewModel.Manager
             OrderTime = rowModel.OrderTime;
             VisitTime = rowModel.VisitTime;
 
-            Services = JsonConvert.DeserializeObject<List<Service>>(rowModel.Services);
+            if (rowModel.Service != null)
+            {
+                Services = JsonConvert.DeserializeObject<List<Service>>(rowModel.Service);
+            }
+            
         }
 
-        [HiddenInput(DisplayValue = false)]
         public long id { get; set; }
 
         public List<Service> Services { get; set; }
@@ -50,27 +53,33 @@ namespace Avtomoll.ViewModel.Manager
         public ClientCar ClientCar { get; set; }
 
         [Display(Name = "Статус")]
+        [Required()]
         public string Status { get; set; }
 
         [Display(Name = "ФИО")]
+        [Required()]
         public string ClientName { get; set; }
 
         [Display(Name = "Телефон")]
+        [Required()]
         public string ClientPhone { get; set; }
 
         [Display(Name = "Марка автомобиля")]
         public string CarBrand { get; set; }
 
         [Display(Name = "Тип авто")]
+        [Required()]
         public string TypeCar { get; set; }
 
         [Display(Name = "Общая стоимость услуг")]
         public int PriceService { get; set; }
 
         [Display(Name = "Заказ был сделан")]
+        [Required()]
         public DateTime OrderTime { get; set; }
 
         [Display(Name = "Сервис назначен на")]
+        [Required()]
         public DateTime VisitTime { get; set; }
     }
 }
