@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Avtomoll.Models;
+using Avtomoll.ViewModel;
 
 namespace Avtomoll.Domains
 {

@@ -1,4 +1,4 @@
-﻿using Avtomoll.Models;
+﻿using Avtomoll.ViewModel;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

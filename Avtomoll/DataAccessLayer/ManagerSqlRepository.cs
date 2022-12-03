@@ -1,11 +1,9 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
-using Avtomoll.Models;
-using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json;
-using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Avtomoll.DataAccessLayer
@@ -32,10 +30,10 @@ namespace Avtomoll.DataAccessLayer
             _context.SaveChanges();
         }
 
-        public Manager FindByName(string name) => 
+        public Manager FindByName(string name) =>
             _context.Manager
                 .FirstOrDefault(x => x.Name == name);
-        
+
 
         public IEnumerable<Manager> GetList()
         {
@@ -55,7 +53,7 @@ namespace Avtomoll.DataAccessLayer
             entry.Name = model.Name;
             entry.Email = model.Email;
             entry.Password = model.Password;
-            entry.PasswordConfirmation= model.PasswordConfirmation;
+            entry.PasswordConfirmation = model.PasswordConfirmation;
             _context.SaveChanges();
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
-using Avtomoll.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

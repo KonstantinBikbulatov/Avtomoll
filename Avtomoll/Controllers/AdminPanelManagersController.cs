@@ -1,9 +1,9 @@
 ﻿using Avtomoll.Abstract;
-using Avtomoll.Models;
 using Microsoft.AspNetCore.Mvc;
 using Avtomoll.Domains;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
+using Avtomoll.ViewModel;
 
 namespace Avtomoll.Controllers
 {
@@ -64,18 +64,28 @@ namespace Avtomoll.Controllers
 
         public IActionResult EditManager(long id)
         {
-            var manager = _repository.Read(id);
+            var manager = new ManagerViewModel(_repository.Read(id));
 
             return View(manager);
         }
 
         [HttpPost]
-        public IActionResult EditManager(Manager model)
+        public IActionResult EditManager(ManagerViewModel model)
         {
+            Manager manager = new Manager()
+            {
+                ManagerId = model.ManagerId,
+                RoleManager = model.RoleManager,
+                Name= model.Name,
+                Email = model.Email,
+                Password = model.Password,
+                PasswordConfirmation= model.PasswordConfirmation,
+            };
+
             if (ModelState.IsValid)
             {
-                _repository.Update(model);
-                return RedirectToAction("List", "AdminPanelManagers");
+                _repository.Update(manager);
+                return RedirectToAction("List", new {id = model.ManagerId});
             }
 
             return View();
@@ -87,5 +97,13 @@ namespace Avtomoll.Controllers
 
             return RedirectToAction("List", "AdminPanelManagers");
         }
+
+        //public IActionResult ManagerDetailsView(long id)
+        //{
+        //    var manager = _repository.Read(id);
+        //    var model = new ManagerViewModel(manager);
+
+        //    return View(model);
+        //}
     }
 }

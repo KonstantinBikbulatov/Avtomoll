@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Avtomoll.Models
+namespace Avtomoll.ViewModel
 {
     public class ManagerViewModel
     {
@@ -12,7 +12,7 @@ namespace Avtomoll.Models
         public long? ManagerId { get; set; }
 
         [Required(ErrorMessage = "Выберите роль")]
-        [Display(Name = "Выберите роль менеджера")]
+        [Display(Name = "Роль менеджера")]
         public string RoleManager { get; set; }
 
         [Required(ErrorMessage = "Введите имя")]
