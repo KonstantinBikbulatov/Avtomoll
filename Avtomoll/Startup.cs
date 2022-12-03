@@ -73,14 +73,14 @@ namespace Avtomoll
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "Manager",
-                    pattern: "Manager/Page{page}",
-                    defaults: new { Controller = "Manager", action = "Index" });
-
-                endpoints.MapControllerRoute(
                     name: "ServiceManager",
                     pattern: "SM",
                     defaults: new { Controller = "ServiceManager", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "Manager",
+                    pattern: "Manager/Page{page}",
+                    defaults: new { Controller = "Manager", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "Admin",
@@ -90,6 +90,7 @@ namespace Avtomoll
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapRazorPages();
             });
 

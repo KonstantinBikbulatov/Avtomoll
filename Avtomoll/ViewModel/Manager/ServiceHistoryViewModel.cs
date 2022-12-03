@@ -18,7 +18,7 @@ namespace Avtomoll.ViewModel.Manager
         }
         public ServiceHistoryViewModel(ServiceHistory rowModel)
         {
-            id = rowModel.OrderNumber;
+            id = rowModel.ServiceHistoryId;
             CarService = rowModel.CarService;
             ClientCar = rowModel.ClientCar;
             Status = rowModel.Status;

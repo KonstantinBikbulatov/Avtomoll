@@ -65,7 +65,7 @@ namespace Avtomoll.DataAccessLayer
                     OrderNumber = 0,
                     OrderTime = new DateTime(2022, 12, 01),
                     PhoneClient = "8922323239",
-                    ServiceHistoryId = Guid.Empty,
+                    ServiceHistoryId = 0,
                     PriceService = 0,
                     Services = CreateFakeServiceJson(),
                     Status = "В ожидании",
@@ -92,7 +92,7 @@ namespace Avtomoll.DataAccessLayer
                     OrderNumber = 1,
                     OrderTime = new DateTime(2022, 11, 12),
                     PhoneClient = "8922323239",
-                    ServiceHistoryId = Guid.Empty,
+                    ServiceHistoryId = 1,
                     PriceService = 0,
                     Services = CreateFakeServiceJson(),
                     Status = "В ожидании",
@@ -112,7 +112,7 @@ namespace Avtomoll.DataAccessLayer
                     OrderNumber = 2,
                     OrderTime = new DateTime(2022, 10, 30),
                     PhoneClient = "8922323239",
-                    ServiceHistoryId = Guid.Empty,
+                    ServiceHistoryId = 3,
                     PriceService = 0,
                     Services = CreateFakeServiceJson(),
                     Status = "Одобренные",
@@ -132,7 +132,7 @@ namespace Avtomoll.DataAccessLayer
 
         public void Delete(long id)
         {
-            services = services.Where(serv => serv.OrderNumber != id);
+            services = services.Where(serv => serv.ServiceHistoryId != id);
         }
 
         public ServiceHistory FindByName(string name)
@@ -144,12 +144,12 @@ namespace Avtomoll.DataAccessLayer
 
         public ServiceHistory Read(long id)
         {
-            return services.First(s => s.OrderNumber == id);
+            return services.First(s => s.ServiceHistoryId == id);
         }
 
         public void Update(ServiceHistory model)
         {
-            var serv = Read(model.OrderNumber);
+            var serv = Read(model.ServiceHistoryId);
 
             serv.CarBrand = model.CarBrand;
             serv.NameClient = model.NameClient;
