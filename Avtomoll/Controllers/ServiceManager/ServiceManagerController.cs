@@ -23,6 +23,9 @@ namespace Avtomoll.Controllers.ServiceManager
 
         public IActionResult Index(string status = "", string carService = "")
         {
+            ViewBag.status = status;
+            ViewBag.carService = carService;
+
             IEnumerable<ServiceHistoryViewModel> model = Repository.
                 GetList().
                 Where(s => status == "" || s.Status == status).
@@ -86,7 +89,7 @@ namespace Avtomoll.Controllers.ServiceManager
             lead.AddService(service);
             Repository.Update(lead);
 
-            return RedirectToAction("Details", new {LeadId = LeadId });
+            return RedirectToAction("Details", new { LeadId = LeadId });
         }
 
     }

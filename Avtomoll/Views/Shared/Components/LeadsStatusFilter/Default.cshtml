@@ -1,26 +1,24 @@
 ﻿@model IEnumerable<string>
 
 @{
-    string status = ViewContext
-    .RouteData
-    .Values["status"]
-    ?.ToString();
     string active = "";
 }
 
 <h3>Статус</h3>
-<div class="list-group">
+
+<div class="list-group list-group-horizontal">
     <a class="list-group-item list-group-item-action" 
                 asp-action="Index" 
                 asp-controller="ServiceManager" 
                 asp-route-status="">Все</a>
     @foreach (var name in Model)
     {
-        active = name == status ? "active" : "";
+        active = name == ViewBag.status ? "active" : "";
 
                 <a class="list-group-item list-group-item-action @active" 
                 asp-action="Index" 
                 asp-controller="ServiceManager" 
-                asp-route-status="@name">@name</a>
+                asp-route-status="@name"
+                asp-route-carService="@ViewBag.carService">@name</a>
     }
 </div>
