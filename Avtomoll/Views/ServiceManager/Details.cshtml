@@ -68,7 +68,7 @@
 <div>
     @if (Model.Services == null)
     {
-            <p class="btn btn-outline-primary">@Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})</p>
+            <p class="btn btn-primary">@Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})</p>
     }
     else
     {
@@ -107,7 +107,7 @@
        <tr>
            <td></td>
            <td>
-               <p class="btn btn-outline-primary">
+               <p class="btn btn-primary">
                     @Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})
                </p>
            </td>
@@ -118,9 +118,9 @@
     </table>
     }
 </div>
-<p class="btn btn-outline-primary">
+<p class="btn btn-primary">
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })
 </p>
-<p class="btn btn-outline-primary">
+<p class="btn btn-primary">
     <a asp-action="Index">Назад к заявкам</a>
 </p>
