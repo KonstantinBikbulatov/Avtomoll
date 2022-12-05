@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<Avtomoll.Domains.GroupService>
 @{
-    ViewData["Title"] = "Service Manager";
+    ViewData["Title"] = "Услуги";
 }
 
+<a class="btn btn-outline-primary" asp-action="Details" asp-route-LeadId="@ViewBag.LeadId">К заявке</a>
 <table class="table">
     <thead>
         <tr>
@@ -43,7 +44,7 @@
                             @Html.DisplayFor(modelItem => service.LeadTime)
                             </td>
                             <td>
-                            @Html.ActionLink("Add", "AddService", new {LeadId = ViewBag.LeadId, ServiceId = service.ServiceId})
+                            @Html.ActionLink("Добавить", "AddService", new {LeadId = ViewBag.LeadId, ServiceId = service.ServiceId})
                             </td>
                         </tr>
                 }
@@ -52,3 +53,5 @@
         }
     </tbody>
 </table>
+
+<a class="btn btn-outline-primary" asp-action="Details" asp-route-LeadId="@ViewBag.LeadId">К заявке</a>
