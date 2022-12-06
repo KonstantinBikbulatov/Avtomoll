@@ -10,7 +10,7 @@ namespace Avtomoll.Domains
     [Table("ServicesHistory")]
     public class ServiceHistory
     {
-        public Guid ServiceHistoryId { get; set; }
+        public long ServiceHistoryId { get; set; }
         public string Services { get; set; }
         public CarService CarService { get; set; }
         public ClientCar ClientCar { get; set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avtomoll.Migrations
 {
-    public partial class initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,10 +50,12 @@ namespace Avtomoll.Migrations
                 name: "CarServices",
                 columns: table => new
                 {
-                    CarServiceId = table.Column<Guid>(nullable: false),
+                    CarServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Address = table.Column<string>(nullable: true),
                     OpeningTime = table.Column<string>(nullable: true),
-                    ClosingTime = table.Column<string>(nullable: true)
+                    ClosingTime = table.Column<string>(nullable: true),
+                    CarsCapacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -248,8 +250,8 @@ namespace Avtomoll.Migrations
                 {
                     ServiceHistoryId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Service = table.Column<string>(nullable: true),
-                    CarServiceId = table.Column<Guid>(nullable: true),
+                    Services = table.Column<string>(nullable: true),
+                    CarServiceId = table.Column<long>(nullable: true),
                     ClientCarId = table.Column<Guid>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
@@ -257,10 +259,10 @@ namespace Avtomoll.Migrations
                     NameClient = table.Column<string>(nullable: true),
                     PhoneClient = table.Column<string>(nullable: true),
                     CarBrand = table.Column<string>(nullable: true),
-                    OrderTime = table.Column<TimeSpan>(nullable: false),
-                    VisitTime = table.Column<TimeSpan>(nullable: false),
-                    PriceService = table.Column<int>(nullable: true),
-                    OrderNumber = table.Column<string>(nullable: true)
+                    OrderTime = table.Column<DateTime>(nullable: false),
+                    VisitTime = table.Column<DateTime>(nullable: false),
+                    PriceService = table.Column<int>(nullable: false),
+                    OrderNumber = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {

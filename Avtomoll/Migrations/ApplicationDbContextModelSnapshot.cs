@@ -21,12 +21,16 @@ namespace Avtomoll.Migrations
 
             modelBuilder.Entity("Avtomoll.Domains.CarService", b =>
                 {
-                    b.Property<Guid>("CarServiceId")
+                    b.Property<long>("CarServiceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CarsCapacity")
+                        .HasColumnType("int");
 
                     b.Property<string>("ClosingTime")
                         .HasColumnType("nvarchar(max)");
@@ -137,8 +141,8 @@ namespace Avtomoll.Migrations
                     b.Property<string>("CarBrand")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CarServiceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long?>("CarServiceId")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid?>("ClientCarId")
                         .HasColumnType("uniqueidentifier");
@@ -158,8 +162,8 @@ namespace Avtomoll.Migrations
                     b.Property<int>("PriceService")
                         .HasColumnType("int");
 
-                    b.Property<long?>("ServiceId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("Services")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
