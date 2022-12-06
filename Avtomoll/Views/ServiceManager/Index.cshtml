@@ -3,10 +3,17 @@
 @{
     ViewData["Title"] = "Заявки";
 }
-
+<link rel="stylesheet" href="~/css/ServiceManagerStyles.css" />
 <h1>Заявки</h1>
-
-<table class="table">
+<div>
+<div>
+    @await Component.InvokeAsync("LeadsStatusFilter")
+</div>
+<div>
+    @await Component.InvokeAsync("LeadsCarServicesFilter")
+</div>
+</div>
+<table class="table leads_table">
     <thead>
         <tr>
             <th>
@@ -21,6 +28,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.OrderTime)
             </th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,8 +48,10 @@
                 @Html.DisplayFor(modelItem => item.OrderTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id }) 
-                @Html.ActionLink("Details", "Details", new { id = item.id })
+                @Html.ActionLink("Редактировать", "Edit", new { LeadId = item.id })
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", new { LeadId = item.id })
             </td>
         </tr>
 }

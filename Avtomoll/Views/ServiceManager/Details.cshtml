@@ -1,13 +1,12 @@
 ﻿@model Avtomoll.ViewModel.Manager.ServiceHistoryViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"Заявка № {Model.id}";
 }
 
-<h1>Details</h1>
+<h1>Заявка от @Model.ClientName</h1>
 
     <div>
-    <h4>ServiceHistoryViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -67,13 +66,18 @@
     </dl>
 </div>
 <div>
+    @if (Model.Services == null)
+    {
+            <p class="btn btn-primary">@Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})</p>
+    }
+    else
+    {
     <table class="table">
         <thead>
          <tr>
-            <th>Service</th>
-            <th>ServiceProperty1</th>
-            <th>ServiceProperty2</th>
-            <th>Service price</th>
+            <th>Услуга</th>
+            <th>Время выполнения</th>
+            <th>Стоимость</th>
             <th></th>
         </tr>
         </thead>
@@ -81,9 +85,6 @@
         @foreach (var service in Model.Services)
        {
            <tr>
-               <td>
-                        @Html.DisplayFor(model => service.GroupService.Name)
-               </td>
                 <td>
                         @Html.DisplayFor(model => service.Name)
                 </td>
@@ -105,17 +106,21 @@
        }
        <tr>
            <td></td>
-           <td></td>
            <td>
-               <p>Add Service</p>
+               <p class="btn btn-primary">
+                    @Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})
+               </p>
            </td>
            <td></td>
            <td></td>
        </tr>
        </tbody>
     </table>
+    }
 </div>
-<div>
+<p class="btn btn-primary">
     @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })
-    <a asp-action="Index">Back to List</a>
-</div>
+</p>
+<p class="btn btn-primary">
+    <a asp-action="Index">Назад к заявкам</a>
+</p>

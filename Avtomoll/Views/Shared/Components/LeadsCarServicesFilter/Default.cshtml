@@ -1,0 +1,24 @@
+﻿@model IEnumerable<string>
+
+@{
+    string active = "";
+}
+<h3>Сервисы</h3>
+<div class="list-group">
+    <a class="list-group-item list-group-item-action" 
+                asp-action="Index" 
+                asp-controller="ServiceManager" 
+                asp-route-carService="">
+                        Все
+            </a>
+    @foreach (var name in Model)
+    {
+        active = name == ViewBag.carService ? "active" : "";
+
+                    <a class="list-group-item list-group-item-action @active" 
+                asp-action="Index" 
+                asp-controller="ServiceManager" 
+                asp-route-carService="@name"
+                asp-route-status="@ViewBag.status">@name</a>
+    }
+</div>
