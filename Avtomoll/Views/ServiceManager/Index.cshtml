@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Avtomoll.ViewModel.Manager.ServiceHistoryViewModel>
+﻿@model Avtomoll.ViewModel.Manager.LeadsListViewModel
 
 @{
     ViewData["Title"] = "Заявки";
@@ -7,7 +7,14 @@
 <h1>Заявки</h1>
 <div>
 <div>
-    @await Component.InvokeAsync("LeadsStatusFilter")
+    @await Component.InvokeAsync("LeadsStatusFilter", 
+    new
+    { 
+        awaiting = Model.AwaitingLeads,
+        approved = Model.ApprovedLeads,
+        completed = Model.CompletedLeads,
+        canceled = Model.CanceledLeads,
+    })
 </div>
 <div>
     @await Component.InvokeAsync("LeadsCarServicesFilter")
@@ -17,23 +24,23 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.emptyModel.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientName)
+                @Html.DisplayNameFor(model => model.emptyModel.ClientName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClientPhone)
+                @Html.DisplayNameFor(model => model.emptyModel.ClientPhone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderTime)
+                @Html.DisplayNameFor(model => model.emptyModel.OrderTime)
             </th>
             <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.leads) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)

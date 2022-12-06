@@ -26,13 +26,18 @@ namespace Avtomoll.Controllers.ServiceManager
             ViewBag.status = status;
             ViewBag.carService = carService;
 
-            IEnumerable<ServiceHistoryViewModel> model = Repository.
-                GetList().
-                Where(s => status == "" || s.Status == status).
-                Select(s => new ServiceHistoryViewModel(s));
+            IEnumerable<ServiceHistoryViewModel> leads = Repository.
+                GetList().Select(s => new ServiceHistoryViewModel(s));
 
-            model = model.Where(s => carService == "" || s.CarService.Address == carService);
-            return View(model);
+            var sortedleads = leads.Where(s => carService == "" || s.CarService.Address == carService);
+            sortedleads = sortedleads.Where(s => status == "" || s.Status == status);
+
+
+            var viewModel = new LeadsListViewModel(leads)
+            {
+                leads = sortedleads
+            };
+            return View(viewModel);
         }
 
 

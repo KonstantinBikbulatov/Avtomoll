@@ -7,8 +7,7 @@
 <div class="list-group">
     <a class="list-group-item list-group-item-action" 
                 asp-action="Index" 
-                asp-controller="ServiceManager" 
-                asp-route-carService="">
+                asp-controller="ServiceManager">
                         Все
             </a>
     @foreach (var name in Model)
@@ -18,7 +17,6 @@
                     <a class="list-group-item list-group-item-action @active" 
                 asp-action="Index" 
                 asp-controller="ServiceManager" 
-                asp-route-carService="@name"
-                asp-route-status="@ViewBag.status">@name</a>
+                asp-route-carService="@name">@name</a>
     }
 </div>
