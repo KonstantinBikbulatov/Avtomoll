@@ -1,17 +1,16 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Avtomoll.DataAccessLayer
 {
-    public class CarserviceSqlRepository : IRepository<CarService>
+    public class CarServiceSqlRepository : IRepository<CarService>
     {
-        private readonly ApplicationDbContext _context;
+        ApplicationDbContext context;
 
-        public CarserviceSqlRepository(ApplicationDbContext context)
+        public CarServiceSqlRepository(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public void Create(CarService model)
@@ -26,17 +25,14 @@ namespace Avtomoll.DataAccessLayer
 
         public CarService FindByName(string name)
         {
-            return _context.CarService.Where(c => c.Address == name).FirstOrDefault();
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<CarService> GetList()
-        {
-            return _context.CarService;
-        }
+        public IEnumerable<CarService> GetList() => context.CarService;
 
         public CarService Read(long id)
         {
-            return _context.CarService.Find(id);
+            return context.CarService.Find(id);
         }
 
         public void Update(CarService model)

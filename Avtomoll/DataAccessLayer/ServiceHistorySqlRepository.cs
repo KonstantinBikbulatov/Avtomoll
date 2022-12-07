@@ -16,19 +16,17 @@ namespace Avtomoll.DataAccessLayer
             leads = context.ServiceHistory;
         }
 
-        private readonly ApplicationDbContext _context;
-
         public void Create(ServiceHistory model)
         {
             leads.Add(model);
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void Delete(long id)
         {
             var lead = Read(id);
             leads.Remove(lead);
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public ServiceHistory FindByName(string name)
@@ -36,7 +34,7 @@ namespace Avtomoll.DataAccessLayer
             return _context.ServiceHistory.Find();
         }
 
-        public IEnumerable<ServiceHistory> GetList() => context.ServiceHistory;
+        public IEnumerable<ServiceHistory> GetList() => _context.ServiceHistory;
 
         public ServiceHistory Read(long id) => leads.Find(id);
 
@@ -50,9 +48,9 @@ namespace Avtomoll.DataAccessLayer
             serv.Status = serv.Status;
             serv.VisitTime = model.VisitTime;
             serv.TypeCar = model.TypeCar;
-            serv.Service = model.Service;
+            serv.Services = model.Services;
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

@@ -39,10 +39,11 @@ namespace Avtomoll.ViewModel.Manager
             OrderTime = rowModel.OrderTime;
             VisitTime = rowModel.VisitTime;
 
-            if (rowModel.Service != null)
+            /*
+            if (rowModel.Services != null)
             {
-                Services = JsonConvert.DeserializeObject<List<Service>>(rowModel.Service);
-            }
+                Services = JsonConvert.DeserializeObject<List<Service>>(rowModel.Services);
+            }*/
             
         }
 

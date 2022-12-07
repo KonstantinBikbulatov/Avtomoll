@@ -21,7 +21,7 @@ namespace Avtomoll.Controllers.ServiceManager
         public IRepository<Service> Services { get; }
         public IRepository<GroupService> RepositoryGroupService { get; }
 
-        public IActionResult Index(string status = "", string carService = "")
+        public IActionResult Index(string status = "Confirmed", string carService = "")
         {
             ViewBag.status = status;
             ViewBag.carService = carService;
@@ -32,9 +32,9 @@ namespace Avtomoll.Controllers.ServiceManager
                 Select(s => new ServiceHistoryViewModel(s));
 
             model = model.Where(s => carService == "" || s.CarService.Address == carService);
+          
             return View(model);
         }
-
 
         public IActionResult Edit(long LeadId)
         {
