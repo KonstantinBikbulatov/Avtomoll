@@ -4,9 +4,12 @@ using Avtomoll.Domains;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using Avtomoll.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Avtomoll.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AdminPanelManagersController : Controller
     {
         private readonly IRepository<Manager> _repository;

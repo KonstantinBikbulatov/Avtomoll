@@ -1,10 +1,12 @@
 ﻿using Avtomoll.Domains;
+using Avtomoll.UsersRoles;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Avtomoll.DataAccessLayer
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Service> Service { get; set; }
         public DbSet<GroupService> GroupService { get; set; }

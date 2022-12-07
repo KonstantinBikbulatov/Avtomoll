@@ -26,8 +26,20 @@ namespace Avtomoll
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services
+               .AddDefaultIdentity<IdentityUser>(o => {
+                   o.Password.RequiredLength = 3;
+                   o.Password.RequireNonAlphanumeric = false;
+                   o.Password.RequiredUniqueChars = 0;
+                   o.Password.RequireDigit = false;
+                   o.Password.RequireLowercase = false;
+                   o.Password.RequireUppercase = false;
+               })
+               .AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -38,7 +50,11 @@ namespace Avtomoll
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -80,6 +96,8 @@ namespace Avtomoll
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 DataSeeder.Seed(scope.ServiceProvider);
+                DataSeeder.SeedRoles(roleManager);
+                DataSeeder.SeedUsers(userManager);
             }
         }
     }
