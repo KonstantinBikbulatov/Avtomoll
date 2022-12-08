@@ -49,18 +49,16 @@ namespace Avtomoll.Controllers.ServiceManager
         [HttpPost]
         public IActionResult Edit(ServiceHistoryViewModel model)
         {
-            ServiceHistory service = new ServiceHistory()
-            {
-                ServiceHistoryId = model.id,
-                CarBrand = model.CarBrand,
-                NameClient = model.ClientName,
-                PhoneClient = model.ClientPhone,
-                Status = model.Status,
-                VisitTime = model.VisitTime,
-                PriceService = model.PriceService,
-                TypeCar = model.TypeCar,
-            };
-            Repository.Update(service);
+            var lead = Repository.Read(model.id);
+            lead.CarBrand = model.CarBrand;
+            lead.NameClient = model.ClientName;
+            lead.PhoneClient = model.ClientPhone;
+            lead.Status = model.Status;
+            lead.VisitTime = model.VisitTime;
+            lead.PriceService = model.PriceService;
+            lead.TypeCar = model.TypeCar;
+
+            Repository.Update(lead);
 
              return RedirectToAction("Details", new { LeadId = model.id });
         }

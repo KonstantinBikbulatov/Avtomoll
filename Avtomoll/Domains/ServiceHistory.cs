@@ -40,5 +40,10 @@ namespace Avtomoll.Domains
             services.Add(newService);
             Service = JsonConvert.SerializeObject(services);
         }
+
+        public void AddServices(List<Service> newServices)
+        {
+            Service = JsonConvert.SerializeObject(newServices);
+        }
     }
 }

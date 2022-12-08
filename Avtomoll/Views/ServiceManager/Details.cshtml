@@ -46,6 +46,12 @@
             @Html.DisplayFor(model => model.TypeCar)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ApproximatePriceService)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ApproximatePriceService)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PriceService)
         </dt>
         <dd class = "col-sm-10">
@@ -68,7 +74,7 @@
 <div>
     @if (Model.Services == null)
     {
-            <p class="btn btn-primary">@Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})</p>
+                <p class="btn btn-primary">@Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id}, new { @class = "btn btn-primary"})</p>
     }
     else
     {
@@ -107,8 +113,8 @@
        <tr>
            <td></td>
            <td>
-               <p class="btn btn-primary">
-                    @Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id})
+               <p>
+                    @Html.ActionLink("Добавить услугу", "AddServicesList", new { LeadId = Model.id}, new { @class = "btn btn-primary"})
                </p>
            </td>
            <td></td>
@@ -118,9 +124,11 @@
     </table>
     }
 </div>
-<p class="btn btn-primary">
-    @Html.ActionLink("Редактировать", "Edit", new { id = Model.id })
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { LeadId = Model.id }, new { @class = "btn btn-primary"})
 </p>
-<p class="btn btn-primary">
-    <a asp-action="Index">Назад к заявкам</a>
-</p>
+       <p>
+        <a class="btn btn-primary" asp-action="Index">Назад к заявкам</a>
+       </p>
+
+

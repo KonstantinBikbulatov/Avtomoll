@@ -9,5 +9,8 @@ namespace Avtomoll.Heplers
         public const string Completed = "Выполненные";
         public const string Canceled = "Отмененные";
 
+        public const string CarTypeNative = "Отечественная";
+        public const string CarTypeForeign = "Иномарка";
+
     }
 }
