@@ -1,5 +1,6 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
+using Avtomoll.Heplers;
 using Avtomoll.ViewModel.Manager;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -43,7 +44,9 @@ namespace Avtomoll.Controllers.ServiceManager
 
         public IActionResult Edit(long LeadId)
         {
-            return View(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+            var viewModel = new EditLeadViewModel(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+
+            return View(viewModel);
         }
 
         [HttpPost]

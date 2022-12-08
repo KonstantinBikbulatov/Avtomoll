@@ -67,6 +67,7 @@ namespace Avtomoll.ViewModel.Manager
         public string ClientPhone { get; set; }
 
         [Display(Name = "Марка автомобиля")]
+        [Required()]
         public string CarBrand { get; set; }
 
         [Display(Name = "Тип авто")]
