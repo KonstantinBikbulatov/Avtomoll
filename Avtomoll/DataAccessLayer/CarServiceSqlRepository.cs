@@ -32,12 +32,13 @@ namespace Avtomoll.DataAccessLayer
 
         public CarService Read(long id)
         {
-            throw new System.NotImplementedException();
+            return context.CarService.Find(id);
         }
 
-        public void Update(CarService model)
+        public void Update(CarService _model)
         {
-            throw new System.NotImplementedException();
+            context.Update(_model);
+            context.SaveChanges();
         }
     }
 }
