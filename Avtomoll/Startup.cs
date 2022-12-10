@@ -73,6 +73,11 @@ namespace Avtomoll
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "Carservice",
+                    pattern: "Carservice",
+                    defaults: new { Controller = "Carservice", action = "Index" });
+
+                endpoints.MapControllerRoute(
                     name: "Reception",
                     pattern: "Reception",
                     defaults: new { Controller = "Reception", action = "Index" });
