@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Avtomoll.Domains.GroupService>
+@{
+    ViewData["Title"] = "Услуги";
+}
+
+<a class="btn btn-primary" asp-action="Details" asp-route-LeadId="@ViewBag.id">К заявке</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Услуга
+            </th>
+            <th>
+                Отечественная
+            </th>
+            <th>
+                Иномарка
+            </th>
+            <th>
+                Время выполнения
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model)
+        {
+                <tr>
+                    <td style="font-size: 25px;">
+                        @Html.DisplayFor(modelItem => group.Name)
+                    </td>
+                @foreach (var service in group.ServiceOfGroupService)
+                {
+                        <tr>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.Name)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.NativeCar)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.ForeignCar)
+                            </td>
+                            <td>
+                            @Html.DisplayFor(modelItem => service.LeadTime)
+                            </td>
+                            <td>
+                            @Html.ActionLink("Добавить", "AddService", new {LeadId = ViewBag.id, ServiceId = service.ServiceId})
+                            </td>
+                        </tr>
+                }
+                </tr>
+
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-action="Details" asp-route-LeadId="@ViewBag.id">К заявке</a>

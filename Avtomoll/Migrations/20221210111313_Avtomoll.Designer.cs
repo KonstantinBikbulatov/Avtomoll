@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221203103431_test")]
-    partial class test
+    [Migration("20221210111313_Avtomoll")]
+    partial class Avtomoll
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

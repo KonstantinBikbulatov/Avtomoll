@@ -4,28 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using System;
+using Avtomoll.ViewModel.Manager;
 
 namespace Avtomoll.ViewModel
 {
     public class ServiceOrderViewModel
     {
-        [HiddenInput(DisplayValue = false)]
-        public long ServiceId { get; set; }
-
-        [HiddenInput(DisplayValue = false)]
-        public List<SelectListItem> ListGroups { get; set; }
-
-        [HiddenInput(DisplayValue = false)]
-        public int GroupServiceId { get; set; }
-        public GroupService GroupService { get; set; }
-        public string GroupName { get; set; }
-
-        [Required()]
-        [Display(Name = "Выбор услуги")]
-        public string Name { get; set; }
-
-        [Required()]
-        [Display(Name = "Выбор времени")]
-        public string Time { get; set; }
+        public ServiceHistoryViewModel ServiceHistory { get; set; }
+        public string CarTypeNative { get; set; }
+        public string CarTypeForeign { get; set; }
+        public IEnumerable<Service> Services { get; set; }
     }
 }

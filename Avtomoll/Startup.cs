@@ -79,8 +79,8 @@ namespace Avtomoll
 
                 endpoints.MapControllerRoute(
                     name: "Service",
-                    pattern: "Service/Page{page}",
-                    defaults: new { Controller = "Service", action = "Index" });
+                    pattern: "S",
+                    defaults: new { Controller = "Service", action = "MakeOrder" });
 
                 endpoints.MapControllerRoute(
                     name: "Manager",
