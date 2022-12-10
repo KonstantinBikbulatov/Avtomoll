@@ -1,0 +1,27 @@
+﻿@model Dictionary<string, int>
+
+@{
+    string active = "";
+}
+
+<h3>Статус</h3>
+
+<div class="list-group list-group-horizontal">
+
+    <a class="list-group-item list-group-item-action" asp-action="Index" 
+    asp-controller="ServiceManager">Все</a>
+
+    @foreach (var status in Model)
+    {
+        active = status.Key == ViewBag.status ? "active" : "";
+
+            <a class="@active list-group-item list-group-item-action" 
+                asp-action="Index" 
+                asp-controller="ServiceManager" 
+                asp-route-status="@status.Key">
+                @status.Key
+                <span class="badge bg-primary rounded-pill status_value">@status.Value</span>
+            </a>
+            
+    }
+</div>

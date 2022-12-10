@@ -1,0 +1,79 @@
+﻿@model Avtomoll.ViewModel.Manager.EditLeadViewModel
+
+@{
+    ViewData["Title"] = "Заявка от" + Model.lead.ClientName;
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="lead.id" class="control-label"></label>
+                <input asp-for="lead.id" class="form-control" readonly/>
+                <span asp-validation-for="lead.id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.Status" class="control-label"></label>
+                <select asp-for="lead.Status" class="form-control">
+                    <option>@Model.AwaitingStatus</option>
+                    <option>@Model.ApprovedStatus</option>
+                    <option>@Model.CompletedStatus</option>
+                    <option>@Model.CanceledStatus</option>
+                </select>
+                <span asp-validation-for="lead.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.ClientName" class="control-label"></label>
+                <input asp-for="lead.ClientName" class="form-control" />
+                <span asp-validation-for="lead.ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.ClientPhone" class="control-label"></label>
+                <input asp-for="lead.ClientPhone" class="form-control" />
+                <span asp-validation-for="lead.ClientPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.CarBrand" class="control-label"></label>
+                <input asp-for="lead.CarBrand" class="form-control" />
+                <span asp-validation-for="lead.CarBrand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.TypeCar" class="control-label"></label>
+                <select asp-for="lead.TypeCar" class="form-control">
+                    <option>@Model.CarTypeNative</option>
+                    <option>@Model.CarTypeForeign</option>
+                </select>
+                <span asp-validation-for="lead.TypeCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.PriceService" class="control-label"></label>
+                <input asp-for="lead.PriceService" class="form-control" />
+                <span asp-validation-for="lead.PriceService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.OrderTime" class="control-label"></label>
+                <input asp-for="lead.OrderTime" class="form-control" />
+                <span asp-validation-for="lead.OrderTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lead.VisitTime" class="control-label"></label>
+                <input asp-for="lead.VisitTime" class="form-control" />
+                <span asp-validation-for="lead.VisitTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить изменения" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">К заявкам</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

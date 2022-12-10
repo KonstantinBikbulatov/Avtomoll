@@ -1,0 +1,66 @@
+﻿@model Avtomoll.ViewModel.Manager.LeadsListViewModel
+
+@{
+    ViewData["Title"] = "Заявки";
+}
+<link rel="stylesheet" href="~/css/ServiceManagerStyles.css" />
+<h1>Заявки</h1>
+<div>
+<div>
+    @await Component.InvokeAsync("LeadsStatusFilter", 
+    new
+    { 
+        awaiting = Model.AwaitingLeads,
+        approved = Model.ApprovedLeads,
+        completed = Model.CompletedLeads,
+        canceled = Model.CanceledLeads,
+    })
+</div>
+<div>
+    @await Component.InvokeAsync("LeadsCarServicesFilter")
+</div>
+</div>
+<table class="table leads_table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.emptyModel.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.emptyModel.ClientName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.emptyModel.ClientPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.emptyModel.OrderTime)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.leads) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTime)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { LeadId = item.id })
+            </td>
+            <td>
+                @Html.ActionLink("Подробнее", "Details", new { LeadId = item.id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
