@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Avtomoll.DataAccessLayer
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Service> Service { get; set; }
         public DbSet<GroupService> GroupService { get; set; }
