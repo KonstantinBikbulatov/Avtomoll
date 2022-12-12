@@ -6,19 +6,17 @@ using System.Xml.Linq;
 namespace Avtomoll.ViewModel
 {
     public class ManagersManagerViewModel
-    {
-        public List<string> Roles { get; set; }
-
+    { 
         [Display(Name = "Логин")]
         [Required(ErrorMessage = "Укажите логин")]
-        public string Login;
+        public string Login { get; set; }
 
         [Display(Name = "Пароль")]
         [Required(ErrorMessage = "Укажите пароль")]
-        public string Password;
+        public string Password { get; set; }
 
         [Display(Name = "Роль")]
         [Required(ErrorMessage = "Выберите роль")]
-        public string Role;
+        public string Role { get; set; }
     }
 }

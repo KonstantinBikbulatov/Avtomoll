@@ -70,6 +70,11 @@ namespace Avtomoll
             {
                 endpoints.MapControllerRoute(
                     name: "Manager",
+                    pattern: "MM",
+                    defaults: new { Controller = "ManagersManager", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "Manager",
                     pattern: "Manager/Page{page}",
                     defaults: new { Controller = "Manager", action = "Index" });
 
