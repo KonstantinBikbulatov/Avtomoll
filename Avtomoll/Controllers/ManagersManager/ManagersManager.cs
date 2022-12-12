@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Avtomoll.Abstract;
+using Avtomoll.ViewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Avtomoll.Controllers.ManagersManager
 {
@@ -14,6 +17,18 @@ namespace Avtomoll.Controllers.ManagersManager
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Create()
+        {
+            ManagersManagerViewModel model = new ManagersManagerViewModel
+            {
+                Roles = new List<string> { "Administrator", "ContentManager", "SalesManager" },
+                Login = "",
+                Password = "",
+                Role = ""
+            };
+            return View(model);
         }
     }
 }
