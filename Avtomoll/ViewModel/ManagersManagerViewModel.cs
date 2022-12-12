@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -6,6 +8,9 @@ namespace Avtomoll.ViewModel
 {
     public class ManagersManagerViewModel
     {
+        [HiddenInput(DisplayValue = false)]
+        public string id { get; set; }
+
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
@@ -28,6 +33,7 @@ namespace Avtomoll.ViewModel
 
         public ManagersManagerViewModel(IdentityUser identityUser)
         {
+            id = identityUser.Id;
             Email = identityUser.Email;
             Password = identityUser.PasswordHash;
         }

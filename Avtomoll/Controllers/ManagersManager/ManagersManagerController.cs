@@ -66,5 +66,17 @@ namespace Avtomoll.Controllers.ManagersManager
             }
 
         }
+
+        public IActionResult DeleteManagers(string id)
+        {
+            IdentityUser user = userManager.FindByIdAsync(id).Result;
+            if (user != null)
+            {
+                IdentityResult result =  userManager.DeleteAsync(user).Result;
+            }
+            return RedirectToAction("Index");
+
+           
+        }
     }
 }
