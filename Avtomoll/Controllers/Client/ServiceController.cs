@@ -39,7 +39,7 @@ namespace Avtomoll.Controllers.Client
             };
             servicesHistory.Create(order);
             long lastId = servicesHistory.GetList().Last().ServiceHistoryId;
-            return RedirectToAction("AddServicesList", new { id = lastId });
+            return RedirectToAction("AddServicesList", new { LeadId = lastId });
         }
         public IActionResult MakeOrder()
         {
@@ -51,14 +51,14 @@ namespace Avtomoll.Controllers.Client
             };
             return View(model);
         }
-        public IActionResult AddServicesList(long id)
+        public IActionResult AddServicesList(long LeadId)
         {
-            ViewBag.id = id;
+            ViewBag.id = LeadId;
             return View(groupService.GetList());
         }
-        public IActionResult Details(long id)
+        public IActionResult Details(long LeadId)
         {
-            var order = servicesHistory.Read(id);
+            var order = servicesHistory.Read(LeadId);
             ServiceHistoryViewModel model = new ServiceHistoryViewModel(order);
             
             return View(model);
@@ -69,7 +69,7 @@ namespace Avtomoll.Controllers.Client
             var service = services.Read(ServiceId);
             order.AddService(service);
             servicesHistory.Update(order);
-            return RedirectToAction("Details", new { id = LeadId });
+            return RedirectToAction("Details", new { LeadId = LeadId });
         }        
     }
 }

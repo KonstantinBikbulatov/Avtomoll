@@ -63,7 +63,7 @@ namespace Avtomoll.Controllers.ServiceManager
 
             Repository.Update(lead);
 
-             return RedirectToAction("Details", new { LeadId = model.id });
+            return RedirectToAction("Details", new { LeadId = model.id });
         }
 
         public IActionResult Details(long LeadId)
