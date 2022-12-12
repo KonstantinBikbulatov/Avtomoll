@@ -1,5 +1,6 @@
 ﻿using Avtomoll.Abstract;
 using Avtomoll.Domains;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Avtomoll.DataAccessLayer
