@@ -32,13 +32,18 @@ namespace Avtomoll.Controllers.ManagersManager
         {
             if (ModelState.IsValid) 
             {
-                IdentityUser manager = new IdentityUser(model.Login);
+                var manager = new IdentityUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    EmailConfirmed = true
+                };
 
                 IdentityResult userResult = userManager.CreateAsync(manager, model.Password).Result;
 
                 if (userResult.Succeeded)
                 {
-                    var result = userManager.AddToRoleAsync(manager, model.Role).Result;
+                    userResult = userManager.AddToRoleAsync(manager, model.Role).Result;
                 }
                 return RedirectToAction("Index");
             }

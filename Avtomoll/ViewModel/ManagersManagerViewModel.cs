@@ -6,11 +6,11 @@ using System.Xml.Linq;
 namespace Avtomoll.ViewModel
 {
     public class ManagersManagerViewModel
-    { 
-        [Display(Name = "Логин")]
-        [Required(ErrorMessage = "Укажите логин")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Имя должно быть от 3 до 50 букв")]
-        public string Login { get; set; }
+    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Display(Name = "Пароль")]
         [Required(ErrorMessage = "Укажите пароль")]
