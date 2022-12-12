@@ -9,7 +9,7 @@ namespace Avtomoll.ViewModel
     public class ManagersManagerViewModel
     {
         [HiddenInput(DisplayValue = false)]
-        public string id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
@@ -33,7 +33,7 @@ namespace Avtomoll.ViewModel
 
         public ManagersManagerViewModel(IdentityUser identityUser)
         {
-            id = identityUser.Id;
+            Id = identityUser.Id;
             Email = identityUser.Email;
             Password = identityUser.PasswordHash;
         }

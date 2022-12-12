@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Avtomoll.Controllers.ManagersManager
 {
@@ -65,6 +66,42 @@ namespace Avtomoll.Controllers.ManagersManager
                 return View(model);
             }
 
+        }
+
+        public IActionResult Edit(string id)
+        {
+            IdentityUser user =  userManager.FindByIdAsync(id).Result;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            IdentityRole role = roleManager.FindByIdAsync(id).Result;
+            ManagersManagerViewModel model = new ManagersManagerViewModel { Id = user.Id, Email = user.Email, Password= user.PasswordHash, Role = role.Name };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ManagersManagerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityRole role = roleManager.FindByIdAsync(model.Id).Result;
+                IdentityUser user = userManager.FindByIdAsync(model.Id).Result;
+                if (user != null)
+                {
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+                    user.PasswordHash = model.Password;
+                    role.Name = model.Role;
+                        
+                    var result =  userManager.UpdateAsync(user);
+                    result = roleManager.UpdateAsync(role);
+                   
+                    return RedirectToAction("Index");
+                  
+                }
+            }
+            return View(model);
         }
 
         public IActionResult DeleteManagers(string id)
