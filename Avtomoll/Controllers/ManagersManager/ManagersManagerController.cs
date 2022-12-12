@@ -7,11 +7,11 @@ using System.Data;
 
 namespace Avtomoll.Controllers.ManagersManager
 {
-    public class ManagersManager : Controller
+    public class ManagersManagerController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
 
-        public ManagersManager(UserManager<IdentityUser> userManager)
+        public ManagersManagerController(UserManager<IdentityUser> userManager)
         {
             this.userManager = userManager;
         }
@@ -40,8 +40,13 @@ namespace Avtomoll.Controllers.ManagersManager
                 {
                     var result = userManager.AddToRoleAsync(manager, model.Role).Result;
                 }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return View(model);
+            }
+            
         }
     }
 }
