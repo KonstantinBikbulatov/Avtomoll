@@ -39,6 +39,16 @@
                                 </a>
                             </li>
                         }
+                        @if (User.IsInRole("SalesManager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                               asp-controller="ContentManager"
+                               asp-action="Index">
+                                    Управление заявками
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>

@@ -28,14 +28,7 @@ namespace Avtomoll
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services
-               .AddDefaultIdentity<IdentityUser>(o => {
-                   o.Password.RequiredLength = 3;
-                   o.Password.RequireNonAlphanumeric = false;
-                   o.Password.RequiredUniqueChars = 0;
-                   o.Password.RequireDigit = false;
-                   o.Password.RequireLowercase = false;
-                   o.Password.RequireUppercase = false;
-               })
+               .AddDefaultIdentity<IdentityUser>()
                .AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -46,7 +39,6 @@ namespace Avtomoll
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
-            services.AddTransient<IRepository<Manager>, ManagerSqlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,9 +70,9 @@ namespace Avtomoll
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                  name: "AdminPanelManagers",
-                  pattern: "APM",
-                  defaults: new { Controller = "AdminPanelManagers", action = "Index" });
+                     name: "Manager",
+                     pattern: "MM",
+                     defaults: new { Controller = "ManagersManager", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "Admin",
