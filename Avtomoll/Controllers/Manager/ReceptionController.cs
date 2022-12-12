@@ -21,16 +21,25 @@ namespace Avtomoll.Controllers.Manager
             _repositoryServiceHistory = repositoryServiceHistory;
             _repositoryCarservice = repositoryCarservice;
         }
+
         [HttpGet("manager/reception/{page?}")]
-        public IActionResult Index(int page)
+        public IActionResult index(int page, string carService = "")
         {
-            if(page == 0)
+            ListReseptionViewModel model = new ListReseptionViewModel();
+            model.NameModel = "reception";
+            model = GetModel(page, model, carService);
+            return View(model);
+        }
+
+        public ListReseptionViewModel GetModel(int page, ListReseptionViewModel model, string carService)
+        {
+            if (page == 0)
             {
                 page = 1;
             }
 
             List<DateTime> dates = new List<DateTime>();
-            ListReseptionViewModel model = new ListReseptionViewModel();
+
             model.ReceptionForPage = new List<ReceptionViewModel>();
 
             for (int i = 0; i < countDate; i++)
@@ -40,41 +49,43 @@ namespace Avtomoll.Controllers.Manager
                 dates.Add(dateTime);
             }
 
-            var carService = _repositoryCarservice.Read(5);
-            
-            var startSt = carService.OpeningTime.Split(":");
-            var endSt = carService.ClosingTime.Split(":");
+            var carservice = _repositoryCarservice.Read(1);
 
-            float result = (Int32.Parse(endSt[0]) - Int32.Parse(startSt[0])) * 2;
+            var timeJob = carservice.ClosingTime.Add(-carservice.OpeningTime);
 
-            if (Int32.Parse(startSt[1]) == 30)
-            {
-                result -= 1;
-            }
-            if (Int32.Parse(endSt[1]) == 30)
-            {
-                result += 1;
-            }
-            
+            int result = (timeJob.Hours * 2) + timeJob.Minutes / 30;
+
             var openTime = new DateTime()
-            .AddHours(Int32.Parse(startSt[0]))
-            .AddMinutes(Int32.Parse(startSt[1]));
+            .AddHours(carservice.OpeningTime.Hours)
+            .AddMinutes(carservice.OpeningTime.Minutes);
 
             var date = DateTime.Now;
-            
+
             date = date.AddDays((page == 1 ? 0 : page - 1) * _receptionQuantityPerPage);
 
             for (int i = 0; i < _receptionQuantityPerPage; i++)
             {
                 //day += i;
                 var reception = new ReceptionViewModel((int)result);
-                var listService = _repositoryServiceHistory.GetList().Where(r => r.VisitTime.Day == date.Day).ToList();
+                var listService = new List<ServiceHistory>();
+
+                if(carService == "")
+                {
+                    var firstCarservice = _repositoryCarservice.GetList().FirstOrDefault();
+                    listService = _repositoryServiceHistory.GetList().Where(r => r.VisitTime.Day == date.Day && r.CarService.Address == firstCarservice.Address).ToList();
+                    carService = firstCarservice.Address;
+                }
+                else
+                {
+                    listService = _repositoryServiceHistory.GetList().Where(r => r.VisitTime.Day == date.Day && r.CarService.Address == carService).ToList();
+                }
+
                 reception.Date = date;
                 date = date.AddDays(1);
 
                 foreach (var item in listService)
                 {
-                    var hour = (item.VisitTime.Hour - Int32.Parse(startSt[0])) * 2;
+                    var hour = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
                     if (item.VisitTime.Minute == 30)
                     {
                         hour += 1;
@@ -86,10 +97,9 @@ namespace Avtomoll.Controllers.Manager
             }
 
             model.ActivePage = page == 0 ? 1 : page;
-            model.NameModel = "reception";
             model.PagesQuantity = 7;
-
-            return View(model);
+            ViewBag.carService = carService;
+            return model;
         }
     }
 }

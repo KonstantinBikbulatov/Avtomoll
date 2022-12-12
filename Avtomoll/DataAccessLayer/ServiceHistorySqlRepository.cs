@@ -34,7 +34,7 @@ namespace Avtomoll.DataAccessLayer
             return _context.ServiceHistory.Find();
         }
 
-        public IEnumerable<ServiceHistory> GetList() => _context.ServiceHistory;
+        public IEnumerable<ServiceHistory> GetList() => _context.ServiceHistory.Include(c => c.CarService);
 
         public ServiceHistory Read(long id) => leads.Find(id);
 

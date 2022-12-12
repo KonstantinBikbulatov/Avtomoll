@@ -20,7 +20,6 @@ namespace Avtomoll.Controllers.ServiceManager
         private IRepository<ServiceHistory> Repository { get; set; }
         public IRepository<Service> Services { get; }
         public IRepository<GroupService> RepositoryGroupService { get; }
-
         public IActionResult Index(string status = "Confirmed", string carService = "")
         {
             ViewBag.status = status;

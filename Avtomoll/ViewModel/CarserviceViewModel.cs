@@ -14,10 +14,10 @@ namespace Avtomoll.ViewModel
         public string Address { get; set; }
         [Required]
         [Display(Name = "Время открытия")]
-        public string OpeningTine { get; set; }
+        public TimeSpan OpeningTine { get; set; }
         [Required]
         [Display(Name = "Время открытия")]
-        public string ClosingTime { get; set; }
+        public TimeSpan ClosingTime { get; set; }
         [Required]
         [Display(Name = "Колличество машин, которое может принять автосервис одновременно")]
         public int CarsCapacity { get; set; }
@@ -27,8 +27,8 @@ namespace Avtomoll.ViewModel
         {
             CarServiceId = model.CarServiceId;
             Address = model.Address;
-            ClosingTime = model.ClosingTime;
-            OpeningTine = model.OpeningTime;
+            //ClosingTime = model.ClosingTime;
+            //OpeningTine = model.OpeningTime;
             CarsCapacity = model.CarsCapacity;
 
         }

@@ -53,8 +53,8 @@ namespace Avtomoll.Migrations
                     CarServiceId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Address = table.Column<string>(nullable: true),
-                    OpeningTime = table.Column<string>(nullable: true),
-                    ClosingTime = table.Column<string>(nullable: true),
+                    OpeningTime = table.Column<TimeSpan>(nullable: false),
+                    ClosingTime = table.Column<TimeSpan>(nullable: false),
                     CarsCapacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -185,7 +185,8 @@ namespace Avtomoll.Migrations
                 name: "ClientCars",
                 columns: table => new
                 {
-                    ClientCarId = table.Column<Guid>(nullable: false),
+                    ClientCarId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -252,7 +253,7 @@ namespace Avtomoll.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Services = table.Column<string>(nullable: true),
                     CarServiceId = table.Column<long>(nullable: true),
-                    ClientCarId = table.Column<Guid>(nullable: true),
+                    ClientCarId = table.Column<long>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     TypeCar = table.Column<string>(nullable: true),

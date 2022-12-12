@@ -7,9 +7,11 @@
 
 @Html.PaginationBootstrap(Model);
 
+@await Component.InvokeAsync("LeadsCarServicesFilter")
+
+
 @foreach (var reception in Model.ReceptionForPage)
 {
     <h5>@reception.Date.ToLongDateString()</h5>
-    @Html.TableBootstrap(reception);
+    @Html.TableBootstrap(reception)
 }
-
