@@ -1,21 +1,36 @@
 ﻿using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Avtomoll.Controllers.ManagersManager
 {
     public class ManagersManagerController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public ManagersManagerController(UserManager<IdentityUser> userManager)
+        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult List()
+        {
+            
+            var model = userManager.Users.ToList()
+                                         .Select(s => new ManagersManagerViewModel(s));
+
+
+            return View(model);
         }
 
         public IActionResult CreateManager()

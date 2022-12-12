@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace Avtomoll.ViewModel
@@ -19,5 +20,20 @@ namespace Avtomoll.ViewModel
         [Display(Name = "Роль")]
         [Required(ErrorMessage = "Выберите роль")]
         public string Role { get; set; }
+
+        public ManagersManagerViewModel()
+        {
+
+        }
+
+        public ManagersManagerViewModel(IdentityUser identityUser)
+        {
+            Email = identityUser.Email;
+            Password = identityUser.PasswordHash;
+        }
+
+       
+
+       
     }
 }
