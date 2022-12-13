@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Avtomoll.DataAccessLayer
 {
-    public class ClientServiceSqlRepository : IRepository<ClientService>
+    public class ClientServiceSqlRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -15,38 +15,31 @@ namespace Avtomoll.DataAccessLayer
             _context = context;
         }
 
-        public void Create(ClientService model)
+        public void Create(ServiceHistory lead, Service service)
         {
-            throw new System.NotImplementedException();
+            ClientService relation = new ClientService()
+            {
+                ServiceHistory = lead,
+                Service = service
+            };
+
+            _context.ClientService.Add(relation);
         }
 
-        public void Delete(long id)
+        public IEnumerable<Service> AllServicesFromLead(ServiceHistory lead)
         {
-            throw new System.NotImplementedException();
+           return _context.ClientService.
+                Where(r => r.ServiceHistory.ServiceHistoryId == lead.ServiceHistoryId).
+                Select(r => r.Service);
         }
 
-        public ClientService FindByName(string name)
+        public IEnumerable<ServiceHistory> AllLeadsWithService(Service service)
         {
-            throw new System.NotImplementedException();
+            return _context.ClientService.
+                Where(r => r.Service.ServiceId == service.ServiceId).
+                Select(r => r.ServiceHistory);
         }
 
-        public IEnumerable<ClientService> GetList()
-        {
-            throw new System.NotImplementedException();
-        }
-        public IEnumerable<ClientService> GetListGroup()
-        {
-            throw new System.NotImplementedException();
-        }
 
-        public ClientService Read(long id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(ClientService model)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

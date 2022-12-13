@@ -9,6 +9,6 @@ namespace Avtomoll.Domains
         [Key]
         public long ClientServiceId { get; set; }
         public Service Service { get; set; }
-        public Service ServiceHistory { get; set; }
+        public ServiceHistory ServiceHistory { get; set; }
     }
 }

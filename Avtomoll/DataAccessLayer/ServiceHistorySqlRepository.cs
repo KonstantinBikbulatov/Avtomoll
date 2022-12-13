@@ -47,7 +47,7 @@ namespace Avtomoll.DataAccessLayer
             entry.Status = model.Status;
             entry.VisitTime = model.VisitTime;
             entry.TypeCar = model.TypeCar;
-            entry.Service = model.Service;
+           // entry.Service = model.Service;
             entry.PriceService = model.PriceService;
 
             context.SaveChanges();

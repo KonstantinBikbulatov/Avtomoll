@@ -11,7 +11,6 @@ namespace Avtomoll.Domains
     public class ServiceHistory
     {
         public long ServiceHistoryId { get; set; }
-        public ClientService ClientService { get; set; }
         public CarService CarService { get; set; }
         public ClientCar ClientCar { get; set; }
         public string Status { get; set; }
