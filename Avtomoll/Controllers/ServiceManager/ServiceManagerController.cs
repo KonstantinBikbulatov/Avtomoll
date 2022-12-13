@@ -75,7 +75,7 @@ namespace Avtomoll.Controllers.ServiceManager
         {
             var lead = Repository.Read(LeadId);
 
-            lead.DeleteService(ServiceId);
+            //lead.DeleteService(ServiceId);
             Repository.Update(lead);
 
             return RedirectToAction("Details", new { LeadId = LeadId });
@@ -92,7 +92,7 @@ namespace Avtomoll.Controllers.ServiceManager
         {
             var lead = Repository.Read(LeadId);
             var service = Services.Read(ServiceId);
-            lead.AddService(service);
+            //lead.AddService(service);
             Repository.Update(lead);
 
             return RedirectToAction("Details", new { LeadId = LeadId });

@@ -41,9 +41,9 @@ namespace Avtomoll.ViewModel.Manager
             VisitTime = entry.VisitTime;
             PriceService = entry.PriceService;
 
-            if (entry.Service != null)
+            if (entry.ClientService != null)
             {
-                Services = JsonConvert.DeserializeObject<List<Service>>(entry.Service);
+                //Services = JsonConvert.DeserializeObject<List<Service>>(entry.Service);
             }
             
         }
