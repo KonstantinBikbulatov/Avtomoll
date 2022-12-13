@@ -1,4 +1,5 @@
 ﻿using Avtomoll.Abstract;
+using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Avtomoll.Heplers;
 using Avtomoll.ViewModel;
@@ -14,14 +15,17 @@ namespace Avtomoll.Controllers.Client
         private IRepository<GroupService> groupService;
         private IRepository<Service> services;
         private IRepository<ServiceHistory> servicesHistory;
+        private ClientServiceSqlRepository ClientService;
         public ServiceController(
-            IRepository<Service> services, 
+            IRepository<Service> services,
             IRepository<ServiceHistory> servicesHistory,
-            IRepository<GroupService> groupService)
+            IRepository<GroupService> groupService,
+            ClientServiceSqlRepository clientService)
         {
             this.services = services;
             this.servicesHistory = servicesHistory;
             this.groupService = groupService;
+            ClientService = clientService;
         }
         [HttpPost]
         public IActionResult MakeOrder(ServiceOrderViewModel model)
@@ -60,6 +64,7 @@ namespace Avtomoll.Controllers.Client
         {
             var order = servicesHistory.Read(LeadId);
             ServiceHistoryViewModel model = new ServiceHistoryViewModel(order);
+            model.Services = ClientService.AllServicesFromLead(LeadId);
             
             return View(model);
         }
@@ -67,8 +72,8 @@ namespace Avtomoll.Controllers.Client
         {
             var order = servicesHistory.Read(LeadId);
             var service = services.Read(ServiceId);
-            order.AddService(service);
-            servicesHistory.Update(order);
+
+            ClientService.Create(order, service);
             return RedirectToAction("Details", new { LeadId = LeadId });
         }        
     }
