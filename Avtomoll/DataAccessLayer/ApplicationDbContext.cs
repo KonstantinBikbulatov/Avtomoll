@@ -12,6 +12,7 @@ namespace Avtomoll.DataAccessLayer
         public DbSet<ClientCar> ClientCar { get; set; }
         public DbSet<ServiceHistory> ServiceHistory { get; set; }
         public DbSet<Message> Message { get; set; }
+        public DbSet<ClientService> ClientService { get; set; }
         public ApplicationDbContext(DbContextOptions opt) : base (opt)
         { 
             //Database.EnsureCreated();

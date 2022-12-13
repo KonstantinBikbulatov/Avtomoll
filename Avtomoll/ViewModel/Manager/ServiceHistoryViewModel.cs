@@ -40,11 +40,6 @@ namespace Avtomoll.ViewModel.Manager
             OrderTime = entry.OrderTime;
             VisitTime = entry.VisitTime;
             PriceService = entry.PriceService;
-
-            if (entry.Service != null)
-            {
-                Services = JsonConvert.DeserializeObject<List<Service>>(entry.Service);
-            }
             
         }
 
