@@ -1,4 +1,5 @@
 ﻿using Avtomoll.Abstract;
+using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Avtomoll.Heplers;
 using Avtomoll.ViewModel.Manager;
@@ -10,12 +11,17 @@ namespace Avtomoll.Controllers.ServiceManager
 {
     public class ServiceManagerController : Controller
     {
-        
-        public ServiceManagerController(IRepository<ServiceHistory> repository, IRepository<Service> services, IRepository<GroupService> repositoryGroupService)
+        private readonly ClientServiceSqlRepository leadServices;
+
+        public ServiceManagerController(IRepository<ServiceHistory> repository, 
+            IRepository<Service> services, 
+            IRepository<GroupService> repositoryGroupService,
+            ClientServiceSqlRepository leadServices)
         {
             Repository = repository;
             Services = services;
             RepositoryGroupService = repositoryGroupService;
+            this.leadServices = leadServices;
         }
 
         private IRepository<ServiceHistory> Repository { get; set; }
@@ -44,8 +50,13 @@ namespace Avtomoll.Controllers.ServiceManager
 
         public IActionResult Edit(long LeadId)
         {
-            var viewModel = new EditLeadViewModel(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+            var services = leadServices.AllServicesFromLead(LeadId);
 
+            var lead = new ServiceHistoryViewModel(Repository.Read(LeadId));
+            lead.Services = services;
+
+            var viewModel = new EditLeadViewModel(lead);
+            
             return View(viewModel);
         }
 
@@ -68,15 +79,14 @@ namespace Avtomoll.Controllers.ServiceManager
 
         public IActionResult Details(long LeadId)
         {
-            return View(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+            var model = new ServiceHistoryViewModel(Repository.Read(LeadId));
+            model.Services = leadServices.AllServicesFromLead(LeadId);
+            return View(model);
         }
 
         public IActionResult CancelService(long ServiceId, long LeadId)
         {
-            var lead = Repository.Read(LeadId);
-
-            //lead.DeleteService(ServiceId);
-            Repository.Update(lead);
+            leadServices.Cancel(ServiceId, LeadId);
 
             return RedirectToAction("Details", new { LeadId = LeadId });
         }
@@ -92,8 +102,8 @@ namespace Avtomoll.Controllers.ServiceManager
         {
             var lead = Repository.Read(LeadId);
             var service = Services.Read(ServiceId);
-            //lead.AddService(service);
-            Repository.Update(lead);
+
+            leadServices.Create(lead, service);
 
             return RedirectToAction("Details", new { LeadId = LeadId });
         }

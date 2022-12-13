@@ -24,20 +24,30 @@ namespace Avtomoll.DataAccessLayer
             };
 
             _context.ClientService.Add(relation);
+            _context.SaveChanges();
         }
 
-        public IEnumerable<Service> AllServicesFromLead(ServiceHistory lead)
+        public List<Service> AllServicesFromLead(long LeadId)
         {
            return _context.ClientService.
-                Where(r => r.ServiceHistory.ServiceHistoryId == lead.ServiceHistoryId).
-                Select(r => r.Service);
+                Where(r => r.ServiceHistory.ServiceHistoryId == LeadId).
+                Select(r => r.Service).ToList();
         }
 
-        public IEnumerable<ServiceHistory> AllLeadsWithService(Service service)
+        public List<ServiceHistory> AllLeadsWithService(long ServiceId)
         {
             return _context.ClientService.
-                Where(r => r.Service.ServiceId == service.ServiceId).
-                Select(r => r.ServiceHistory);
+                Where(r => r.Service.ServiceId == ServiceId).
+                Select(r => r.ServiceHistory).ToList();
+        }
+
+        public void Cancel(long ServiceId, long LeadId)
+        {
+            var relation = _context.ClientService.Where(r => r.Service.ServiceId == ServiceId &&
+            r.ServiceHistory.ServiceHistoryId == LeadId).First();
+
+            _context.ClientService.Remove(relation);
+            _context.SaveChanges();
         }
 
 
