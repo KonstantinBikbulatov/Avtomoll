@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Avtomoll.ViewModel.ManagersManagerViewModel>
 
 @{
-    ViewData["Title"] = "List";
+    ViewData["Title"] = "Список пользователей";
 }
 
-<h1>List</h1>
+<h1>Список пользователей</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать нового пользователя</a>
 </p>
 <table class="table">
     <thead>
@@ -37,8 +37,8 @@
                 @Html.DisplayFor(modelItem => item.Role)
             </td>*@
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                @Html.ActionLink("Delete", "DeleteManagers", new {  id=item.Id  })
+                @Html.ActionLink("Редактирование", "Edit", new {  id=item.Id  }) |
+                @Html.ActionLink("Удаление", "DeleteManagers", new {  id=item.Id  })
             </td>
         </tr>
 }
