@@ -14,6 +14,7 @@ namespace Avtomoll.Controllers.ManagersManager
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
+
         public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
@@ -75,8 +76,9 @@ namespace Avtomoll.Controllers.ManagersManager
             {
                 return NotFound();
             }
+            ViewBag.Roles = new List<string> { "Administrator", "ContentManager", "SalesManager" };
             IdentityRole role = roleManager.FindByIdAsync(id).Result;
-            ManagersManagerViewModel model = new ManagersManagerViewModel { Id = user.Id, Email = user.Email, Password= user.PasswordHash, Role = role.Name };
+            ManagersManagerViewModel model = new ManagersManagerViewModel { Id = user.Id, Email = user.Email, Password= user.PasswordHash };
             return View(model);
         }
 
