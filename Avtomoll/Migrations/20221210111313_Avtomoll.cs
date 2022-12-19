@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avtomoll.Migrations
 {
-    public partial class initial : Migration
+    public partial class Avtomoll : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -257,10 +257,10 @@ namespace Avtomoll.Migrations
                     NameClient = table.Column<string>(nullable: true),
                     PhoneClient = table.Column<string>(nullable: true),
                     CarBrand = table.Column<string>(nullable: true),
-                    OrderTime = table.Column<TimeSpan>(nullable: false),
-                    VisitTime = table.Column<TimeSpan>(nullable: false),
-                    PriceService = table.Column<int>(nullable: true),
-                    OrderNumber = table.Column<string>(nullable: true)
+                    OrderTime = table.Column<DateTime>(nullable: false),
+                    VisitTime = table.Column<DateTime>(nullable: false),
+                    PriceService = table.Column<int>(nullable: false),
+                    OrderNumber = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
