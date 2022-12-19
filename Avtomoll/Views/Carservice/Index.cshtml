@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Avtomoll.ViewModel.CarserviceViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateCarservice">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningTine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarsCapacity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpeningTine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarsCapacity)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCarservice", new {  id=item.CarServiceId }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

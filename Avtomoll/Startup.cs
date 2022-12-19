@@ -41,9 +41,9 @@ namespace Avtomoll
             services.AddRazorPages();
 
             services.AddTransient<IRepository<Service>, ServiceSqlRepository>();
+            services.AddTransient<IRepository<ServiceHistory>, ServiceHistorySqlRepository>();
             services.AddTransient<IRepository<GroupService>, GroupServiceSqlRepository>();
             services.AddTransient<IRepository<Message>, MessageSqlRepository>();
-            services.AddTransient<IRepository<ServiceHistory>, ServiceHistorySqlRepository>();
             services.AddTransient<IRepository<CarService>, CarServiceSqlRepository>();
             services.AddTransient<ClientServiceSqlRepository>();
         }
@@ -72,6 +72,16 @@ namespace Avtomoll
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Carservice",
+                    pattern: "Carservice",
+                    defaults: new { Controller = "Carservice", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "Reception",
+                    pattern: "Reception",
+                    defaults: new { Controller = "Reception", action = "Index" });
+
                 endpoints.MapControllerRoute(
                     name: "ServiceManager",
                     pattern: "SM",

@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -10,6 +11,7 @@ namespace Avtomoll.Domains
     [Table("ServicesHistory")]
     public class ServiceHistory
     {
+        [Key]
         public long ServiceHistoryId { get; set; }
         public CarService CarService { get; set; }
         public ClientCar ClientCar { get; set; }

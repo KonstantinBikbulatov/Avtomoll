@@ -15,6 +15,7 @@ namespace Avtomoll.DataAccessLayer
             this.context = context;
             entries = context.ServiceHistory;
         }
+
         public void Create(ServiceHistory model)
         {
             entries.Add(model);
@@ -30,10 +31,10 @@ namespace Avtomoll.DataAccessLayer
 
         public ServiceHistory FindByName(string name)
         {
-            throw new System.NotImplementedException();
+            return _context.ServiceHistory.Find();
         }
 
-        public IEnumerable<ServiceHistory> GetList() => context.ServiceHistory;
+        public IEnumerable<ServiceHistory> GetList() => _context.ServiceHistory.Include(c => c.CarService);
 
         public ServiceHistory Read(long id) => entries.Find(id);
 

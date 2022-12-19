@@ -1,10 +1,22 @@
-﻿@model IEnumerable<string>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<string>
 
 @{
     string active = "";
 }
 <h3>Сервисы</h3>
 <div class="list-group">
+
+    @if (!@Context.Request.Path.Value.Contains("reception"))
+    {
+        string a = @Context.Request.Path.Value;
+        <a class="list-group-item list-group-item-action"
+       asp-action="Index"
+       asp-route-carService="">
+            Все
+        </a>
+    }
+
     <a class="list-group-item list-group-item-action" 
                 asp-action="Index" 
                 asp-controller="ServiceManager">
