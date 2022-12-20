@@ -8,6 +8,7 @@ namespace Avtomoll.ViewModel.ReceptionModel
     {
         public DateTime TimeOpenCarservice { get; set; }
         public DateTime Date { get; set; }
+        public long IdServiceHistory { get; set; }
         public IEnumerable<DateTime> Time { get; set; }
         public long[] TimeReception { get; set; }
 

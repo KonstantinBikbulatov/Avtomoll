@@ -73,28 +73,28 @@ namespace Avtomoll
             {
                 endpoints.MapControllerRoute(
                     name: "Carservice",
-                    pattern: "Carservice",
+                    pattern: "manager/carservice/{action}",
                     defaults: new { Controller = "Carservice", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "Reception",
-                    pattern: "Reception",
+                    pattern: "manager/reception/{action}",
                     defaults: new { Controller = "Reception", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "ServiceManager",
-                    pattern: "SM",
+                    pattern: "manager/service/{action}",
                     defaults: new { Controller = "ServiceManager", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "ManagersManager",
+                    pattern: "admin/ManagersManager/{action}",
+                    defaults: new { Controller = "ManagersManager", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "Service",
                     pattern: "S",
                     defaults: new { Controller = "Service", action = "MakeOrder" });
-
-                endpoints.MapControllerRoute(
-                    name: "Manager",
-                    pattern: "Manager/Page{page}",
-                    defaults: new { Controller = "Manager", action = "Index" });
 
                 endpoints.MapControllerRoute(
                     name: "Admin",

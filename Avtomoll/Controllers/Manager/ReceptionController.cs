@@ -22,7 +22,6 @@ namespace Avtomoll.Controllers.Manager
             _repositoryCarservice = repositoryCarservice;
         }
 
-        [HttpGet("manager/reception/{page?}")]
         public IActionResult index(int page, string carService = "")
         {
             ListReseptionViewModel model = new ListReseptionViewModel();

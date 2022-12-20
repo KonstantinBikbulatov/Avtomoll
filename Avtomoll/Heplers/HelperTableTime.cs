@@ -92,7 +92,7 @@ namespace Avtomoll.Heplers
                     if (timeReseption[i] != 0)
                     {
                         var tagA = new TagBuilder("a");
-                        tagA.MergeAttribute("href", $"/manager/reception/{i + 1}");
+                        tagA.MergeAttribute("href", $"/manager/service/Details?LeadId=" + timeReseption[i]);
                         var tagDiv = new TagBuilder("div");
                         tagA.Attributes["style"] = "width: 100%; height: 100%;";
                         tagA.AddCssClass("bg-success");
