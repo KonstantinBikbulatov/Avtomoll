@@ -1,22 +1,40 @@
-﻿@model IEnumerable<string>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<string>
 
 @{
     string active = "";
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    string status = "";
+    if (!String.IsNullOrEmpty(ViewBag.status))
+    {
+        status = ViewBag.status;
+    }
+
 }
 <h3>Сервисы</h3>
 <div class="list-group">
-    <a class="list-group-item list-group-item-action" 
-                asp-action="Index" 
-                asp-controller="ServiceManager">
-                        Все
-            </a>
+
+    @if (!@Context.Request.Path.Value.Contains("reception"))
+    {
+        if (String.IsNullOrEmpty(ViewBag.carService))
+        {
+            active = "active";
+        }
+        <a class="list-group-item list-group-item-action @active"
+       asp-action="Index"
+       asp-controller="@controllerName"
+       asp-route-status="@status">
+            Все
+        </a>
+    }
+
     @foreach (var name in Model)
     {
         active = name == ViewBag.carService ? "active" : "";
-
-                    <a class="list-group-item list-group-item-action @active" 
-                asp-action="Index" 
-                asp-controller="ServiceManager" 
-                asp-route-carService="@name">@name</a>
+        <a class="list-group-item list-group-item-action @active"
+       asp-action="Index"
+       asp-controller="@controllerName"
+       asp-route-carService="@name"
+       asp-route-status="@status">@name</a>
     }
 </div>

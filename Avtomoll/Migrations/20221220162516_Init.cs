@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avtomoll.Migrations
 {
-    public partial class Avtomoll : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,10 +50,12 @@ namespace Avtomoll.Migrations
                 name: "CarServices",
                 columns: table => new
                 {
-                    CarServiceId = table.Column<Guid>(nullable: false),
+                    CarServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Address = table.Column<string>(nullable: true),
-                    OpeningTime = table.Column<string>(nullable: true),
-                    ClosingTime = table.Column<string>(nullable: true)
+                    OpeningTime = table.Column<TimeSpan>(nullable: false),
+                    ClosingTime = table.Column<TimeSpan>(nullable: false),
+                    CarsCapacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -183,7 +185,8 @@ namespace Avtomoll.Migrations
                 name: "ClientCars",
                 columns: table => new
                 {
-                    ClientCarId = table.Column<Guid>(nullable: false),
+                    ClientCarId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },
@@ -248,9 +251,8 @@ namespace Avtomoll.Migrations
                 {
                     ServiceHistoryId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Service = table.Column<string>(nullable: true),
-                    CarServiceId = table.Column<Guid>(nullable: true),
-                    ClientCarId = table.Column<Guid>(nullable: true),
+                    CarServiceId = table.Column<long>(nullable: true),
+                    ClientCarId = table.Column<long>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     TypeCar = table.Column<string>(nullable: true),
@@ -282,6 +284,32 @@ namespace Avtomoll.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientServices",
+                columns: table => new
+                {
+                    ClientServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceId = table.Column<long>(nullable: true),
+                    ServiceHistoryId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientServices", x => x.ClientServiceId);
+                    table.ForeignKey(
+                        name: "FK_ClientServices_ServicesHistory_ServiceHistoryId",
+                        column: x => x.ServiceHistoryId,
+                        principalTable: "ServicesHistory",
+                        principalColumn: "ServiceHistoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ClientServices_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "ServiceId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -330,6 +358,16 @@ namespace Avtomoll.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientServices_ServiceHistoryId",
+                table: "ClientServices",
+                column: "ServiceHistoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientServices_ServiceId",
+                table: "ClientServices",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Message_UserId",
                 table: "Message",
                 column: "UserId");
@@ -373,25 +411,28 @@ namespace Avtomoll.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientServices");
+
+            migrationBuilder.DropTable(
                 name: "Message");
-
-            migrationBuilder.DropTable(
-                name: "Services");
-
-            migrationBuilder.DropTable(
-                name: "ServicesHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "GroupServices");
+                name: "ServicesHistory");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "CarServices");
 
             migrationBuilder.DropTable(
                 name: "ClientCars");
+
+            migrationBuilder.DropTable(
+                name: "GroupServices");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

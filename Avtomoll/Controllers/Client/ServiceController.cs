@@ -72,8 +72,8 @@ namespace Avtomoll.Controllers.Client
         {
             var order = servicesHistory.Read(LeadId);
             var service = services.Read(ServiceId);
-
             ClientService.Create(order, service);
+            servicesHistory.Update(order);
             return RedirectToAction("Details", new { LeadId = LeadId });
         }        
     }

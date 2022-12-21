@@ -7,33 +7,34 @@ namespace Avtomoll.DataAccessLayer
 {
     public class ServiceHistorySqlRepository : IRepository<ServiceHistory>
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
         private DbSet<ServiceHistory> entries;
 
         public ServiceHistorySqlRepository(ApplicationDbContext context)
         {
-            this.context = context;
+            _context = context;
             entries = context.ServiceHistory;
         }
+
         public void Create(ServiceHistory model)
         {
             entries.Add(model);
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void Delete(long id)
         {
             var lead = Read(id);
             entries.Remove(lead);
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public ServiceHistory FindByName(string name)
         {
-            throw new System.NotImplementedException();
+            return _context.ServiceHistory.Find();
         }
 
-        public IEnumerable<ServiceHistory> GetList() => context.ServiceHistory;
+        public IEnumerable<ServiceHistory> GetList() => _context.ServiceHistory.Include(c => c.CarService);
 
         public ServiceHistory Read(long id) => entries.Find(id);
 
@@ -50,7 +51,7 @@ namespace Avtomoll.DataAccessLayer
            // entry.Service = model.Service;
             entry.PriceService = model.PriceService;
 
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

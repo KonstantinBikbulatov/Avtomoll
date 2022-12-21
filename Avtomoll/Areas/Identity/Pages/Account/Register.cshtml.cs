@@ -80,6 +80,9 @@ namespace Avtomoll.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // добавим юзеру нужную роль
+                    result = await _userManager.AddToRoleAsync(user, "Guest");
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

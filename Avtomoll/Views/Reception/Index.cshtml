@@ -1,0 +1,17 @@
+﻿@using Avtomoll.Heplers
+@model Avtomoll.ViewModel.ReceptionModel.ListReseptionViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@Html.PaginationBootstrap(Model);
+
+@await Component.InvokeAsync("LeadsCarServicesFilter")
+
+
+@foreach (var reception in Model.ReceptionForPage)
+{
+    <h5>@reception.Date.ToLongDateString()</h5>
+    @Html.TableBootstrap(reception)
+}
