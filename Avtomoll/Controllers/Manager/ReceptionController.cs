@@ -84,12 +84,14 @@ namespace Avtomoll.Controllers.Manager
 
                 foreach (var item in listService)
                 {
-                    var hour = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
-                    if (item.VisitTime.Minute == 30)
+                    var interval = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
+                    if (item.VisitTime.Minute >= 30)
                     {
-                        hour += 1;
+                        interval += 1;
                     }
-                    reception.TimeReception[hour] = item.ServiceHistoryId;
+                    reception.TimeReception[interval] = new DataReception();
+                    reception.TimeReception[interval].ServiceHistoryId = item.ServiceHistoryId;
+                    reception.TimeReception[interval].Time = item.VisitTime;
                 }
                 reception.TimeOpenCarservice = openTime;
                 model.ReceptionForPage.Add(reception);

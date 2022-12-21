@@ -4,6 +4,7 @@ using Avtomoll.Domains;
 using Avtomoll.Heplers;
 using Avtomoll.ViewModel.Manager;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +28,7 @@ namespace Avtomoll.Controllers.ServiceManager
         private IRepository<ServiceHistory> Repository { get; set; }
         public IRepository<Service> Services { get; }
         public IRepository<GroupService> RepositoryGroupService { get; }
-        public IActionResult Index(string status = "Confirmed", string carService = "")
+        public IActionResult Index(string status = "", string carService = "")
         {
             ViewBag.status = status;
             ViewBag.carService = carService;
@@ -35,13 +36,19 @@ namespace Avtomoll.Controllers.ServiceManager
             IEnumerable<ServiceHistoryViewModel> leads = Repository.
                 GetList().Select(s => new ServiceHistoryViewModel(s));
 
-            var sortedleads = leads.Where(s => carService == "" || s.CarService.Address == carService);
-            sortedleads = sortedleads.Where(s => status == "" || s.Status == status);
+            if (carService != "")
+            {
+                leads = leads.Where(s => s.CarService.Address == carService);
+            }
 
+            if(status != "")
+            {
+                leads = leads.Where(s => s.Status == status);
+            }
 
             var viewModel = new LeadsListViewModel(leads)
             {
-                leads = sortedleads
+                leads = leads
             };
             return View(viewModel);
         }
