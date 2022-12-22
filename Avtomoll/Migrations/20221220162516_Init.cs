@@ -251,7 +251,6 @@ namespace Avtomoll.Migrations
                 {
                     ServiceHistoryId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Services = table.Column<string>(nullable: true),
                     CarServiceId = table.Column<long>(nullable: true),
                     ClientCarId = table.Column<long>(nullable: true),
                     Status = table.Column<string>(nullable: true),
@@ -285,6 +284,32 @@ namespace Avtomoll.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientServices",
+                columns: table => new
+                {
+                    ClientServiceId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceId = table.Column<long>(nullable: true),
+                    ServiceHistoryId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientServices", x => x.ClientServiceId);
+                    table.ForeignKey(
+                        name: "FK_ClientServices_ServicesHistory_ServiceHistoryId",
+                        column: x => x.ServiceHistoryId,
+                        principalTable: "ServicesHistory",
+                        principalColumn: "ServiceHistoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ClientServices_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "ServiceId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -333,6 +358,16 @@ namespace Avtomoll.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClientServices_ServiceHistoryId",
+                table: "ClientServices",
+                column: "ServiceHistoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientServices_ServiceId",
+                table: "ClientServices",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Message_UserId",
                 table: "Message",
                 column: "UserId");
@@ -376,25 +411,28 @@ namespace Avtomoll.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientServices");
+
+            migrationBuilder.DropTable(
                 name: "Message");
-
-            migrationBuilder.DropTable(
-                name: "Services");
-
-            migrationBuilder.DropTable(
-                name: "ServicesHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "GroupServices");
+                name: "ServicesHistory");
+
+            migrationBuilder.DropTable(
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "CarServices");
 
             migrationBuilder.DropTable(
                 name: "ClientCars");
+
+            migrationBuilder.DropTable(
+                name: "GroupServices");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

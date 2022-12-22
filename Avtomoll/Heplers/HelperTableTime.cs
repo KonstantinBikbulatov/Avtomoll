@@ -46,7 +46,7 @@ namespace Avtomoll.Heplers
             return new HtmlString(writer.ToString());
         }
 
-        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, long[] timeReseption, int limitColumn, int progressColumn, int timeJob)
+        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, DataReception[] timeReseption, int limitColumn, int progressColumn, int timeJob)
         {
             var tagTable = new TagBuilder("table");
             tagTable.AddCssClass("mt-4");
@@ -89,14 +89,14 @@ namespace Avtomoll.Heplers
 
                 if(i < timeReseption.Length)
                 {
-                    if (timeReseption[i] != 0)
+                    if (timeReseption[i] != null)
                     {
                         var tagA = new TagBuilder("a");
-                        tagA.MergeAttribute("href", $"/manager/reception/{i + 1}");
+                        tagA.MergeAttribute("href", $"/manager/service/Details?LeadId=" + timeReseption[i].ServiceHistoryId);
                         var tagDiv = new TagBuilder("div");
                         tagA.Attributes["style"] = "width: 100%; height: 100%;";
                         tagA.AddCssClass("bg-success");
-                        tagDiv.InnerHtml.SetContent("Запись");
+                        tagDiv.InnerHtml.SetContent(timeReseption[i].Time.Hour.ToString() + ":" + timeReseption[i].Time.Minute.ToString());
                         tagA.InnerHtml.AppendHtml(tagDiv);
                         tagTd.Attributes["style"] = "background-color: #a4dcff;";
                         tagTd.InnerHtml.AppendHtml(tagA);

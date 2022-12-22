@@ -1,4 +1,5 @@
 ﻿using Avtomoll.Domains;
+using Avtomoll.Heplers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -16,34 +17,29 @@ namespace Avtomoll.ViewModel.Manager
         {
 
         }
-        public ServiceHistoryViewModel(ServiceHistory rowModel)
+        public ServiceHistoryViewModel(ServiceHistory entry)
         {
-            id = rowModel.ServiceHistoryId;
-            CarService = rowModel.CarService;
-            ClientCar = rowModel.ClientCar;
-            Status = rowModel.Status;
+            id = entry.ServiceHistoryId;
+            CarService = entry.CarService;
+            ClientCar = entry.ClientCar;
+            Status = entry.Status;
             
-            if(rowModel.User != null)
+            if(entry.User != null)
             {
-                ClientName = rowModel.User.UserName;
-                ClientPhone = rowModel.User.PhoneNumber;
+                ClientName = entry.User.UserName;
+                ClientPhone = entry.User.PhoneNumber;
             }
             else
             {
-                ClientPhone = rowModel.PhoneClient;
-                ClientName = rowModel.NameClient;
+                ClientPhone = entry.PhoneClient;
+                ClientName = entry.NameClient;
             }
 
-            CarBrand = rowModel.CarBrand;
-            TypeCar = rowModel.TypeCar;
-            OrderTime = rowModel.OrderTime;
-            VisitTime = rowModel.VisitTime;
-
-            /*
-            if (rowModel.Services != null)
-            {
-                Services = JsonConvert.DeserializeObject<List<Service>>(rowModel.Services);
-            }*/
+            CarBrand = entry.CarBrand;
+            TypeCar = entry.TypeCar;
+            OrderTime = entry.OrderTime;
+            VisitTime = entry.VisitTime;
+            PriceService = entry.PriceService;
             
         }
 
@@ -66,6 +62,7 @@ namespace Avtomoll.ViewModel.Manager
         public string ClientPhone { get; set; }
 
         [Display(Name = "Марка автомобиля")]
+        [Required()]
         public string CarBrand { get; set; }
 
         [Display(Name = "Тип авто")]
@@ -74,6 +71,30 @@ namespace Avtomoll.ViewModel.Manager
 
         [Display(Name = "Общая стоимость услуг")]
         public int PriceService { get; set; }
+
+        [Display(Name = "Примерная стоимость услуг")]
+        public int ApproximatePriceService
+        {
+            get 
+            {
+                if(Services != null)
+                {
+                    if (TypeCar == HelperLeadStatus.CarTypeForeign)
+                    {
+                        return Services.Select(s => Convert.ToInt32(s.ForeignCar)).Sum();
+                    }
+                    else if (TypeCar == HelperLeadStatus.CarTypeNative)
+                    {
+                        return Services.Select(s => Convert.ToInt32(s.NativeCar)).Sum();
+                    }
+
+                    
+                }
+                return PriceService;
+
+            }
+        }
+
 
         [Display(Name = "Заказ был сделан")]
         [Required()]

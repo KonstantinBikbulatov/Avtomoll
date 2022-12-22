@@ -13,7 +13,6 @@ namespace Avtomoll.Domains
     {
         [Key]
         public long ServiceHistoryId { get; set; }
-        public string Services { get; set; }
         public CarService CarService { get; set; }
         public ClientCar ClientCar { get; set; }
         public string Status { get; set; }
@@ -26,21 +25,5 @@ namespace Avtomoll.Domains
         public DateTime VisitTime { get; set; }
         public int PriceService { get; set; }
         public long OrderNumber { get; set; }
-
-        public void DeleteService(long serviceId)
-        {
-            List<Service> services = JsonConvert.DeserializeObject<List<Service>>(Services);
-
-            services.Remove(services.First(s => s.ServiceId == serviceId));
-
-            Services = JsonConvert.SerializeObject(services);
-        }
-
-        public void AddService(Service newService)
-        {
-            //List<Service> services = Services == null ? new List<Service>() : JsonConvert.DeserializeObject<List<Service>>(Services);
-            //services.Add(newService);
-            Services += ", " + newService.ServiceId; //= JsonConvert.SerializeObject(services);
-        }
     }
 }

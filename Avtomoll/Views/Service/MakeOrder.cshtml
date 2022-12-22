@@ -1,0 +1,63 @@
+﻿@model Avtomoll.ViewModel.ServiceOrderViewModel
+
+@{
+    ViewData["Title"] = "MakeOrder";
+}
+
+<h1>MakeOrder</h1>
+
+<h4>ServiceHistoryViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.ClientName" class="control-label"></label>
+                <input asp-for="@Model.ServiceHistory.ClientName" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.ClientPhone" class="control-label"></label>
+                <input asp-for="@Model.ServiceHistory.ClientPhone" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.ClientPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.CarBrand" class="control-label"></label>
+                <input asp-for="@Model.ServiceHistory.CarBrand" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.CarBrand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.TypeCar" class="control-label"></label>
+                <select asp-for="@Model.ServiceHistory.TypeCar" class="form-control">
+                    <option>@Model.CarTypeNative</option>
+                    <option>@Model.CarTypeForeign</option>
+                </select>
+                <span asp-validation-for="@Model.ServiceHistory.TypeCar" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.PriceService" class="control-label"></label>
+                <input asp-for="@Model.ServiceHistory.PriceService" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.PriceService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.ApproximatePriceService" class="control-label"></label>
+                <input readonly asp-for="@Model.ServiceHistory.ApproximatePriceService" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.ApproximatePriceService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ServiceHistory.VisitTime" class="control-label"></label>
+                <input asp-for="@Model.ServiceHistory.VisitTime" class="form-control" />
+                <span asp-validation-for="@Model.ServiceHistory.VisitTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

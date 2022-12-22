@@ -63,6 +63,28 @@ namespace Avtomoll.Migrations
                     b.ToTable("ClientCars");
                 });
 
+            modelBuilder.Entity("Avtomoll.Domains.ClientService", b =>
+                {
+                    b.Property<long>("ClientServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("ServiceHistoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ServiceId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ClientServiceId");
+
+                    b.HasIndex("ServiceHistoryId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ClientServices");
+                });
+
             modelBuilder.Entity("Avtomoll.Domains.GroupService", b =>
                 {
                     b.Property<long>("GroupServiceId")
@@ -162,9 +184,6 @@ namespace Avtomoll.Migrations
 
                     b.Property<int>("PriceService")
                         .HasColumnType("int");
-
-                    b.Property<string>("Services")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -394,6 +413,17 @@ namespace Avtomoll.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.ClientService", b =>
+                {
+                    b.HasOne("Avtomoll.Domains.ServiceHistory", "ServiceHistory")
+                        .WithMany()
+                        .HasForeignKey("ServiceHistoryId");
+
+                    b.HasOne("Avtomoll.Domains.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId");
                 });
 
             modelBuilder.Entity("Avtomoll.Domains.Message", b =>

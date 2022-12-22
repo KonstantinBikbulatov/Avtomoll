@@ -3,16 +3,27 @@
 
 @{
     string active = "";
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    string status = "";
+    if (!String.IsNullOrEmpty(ViewBag.status))
+    {
+        status = ViewBag.status;
+    }
+
 }
 <h3>Сервисы</h3>
 <div class="list-group">
 
     @if (!@Context.Request.Path.Value.Contains("reception"))
     {
-        string a = @Context.Request.Path.Value;
-        <a class="list-group-item list-group-item-action"
+        if (String.IsNullOrEmpty(ViewBag.carService))
+        {
+            active = "active";
+        }
+        <a class="list-group-item list-group-item-action @active"
        asp-action="Index"
-       asp-route-carService="">
+       asp-controller="@controllerName"
+       asp-route-status="@status">
             Все
         </a>
     }
@@ -22,7 +33,8 @@
         active = name == ViewBag.carService ? "active" : "";
         <a class="list-group-item list-group-item-action @active"
        asp-action="Index"
+       asp-controller="@controllerName"
        asp-route-carService="@name"
-       asp-route-status="@ViewBag.status">@name</a>
+       asp-route-status="@status">@name</a>
     }
 </div>

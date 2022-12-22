@@ -1,7 +1,10 @@
 ﻿using Avtomoll.Abstract;
+using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
+using Avtomoll.Heplers;
 using Avtomoll.ViewModel.Manager;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,67 +12,86 @@ namespace Avtomoll.Controllers.ServiceManager
 {
     public class ServiceManagerController : Controller
     {
-        
-        public ServiceManagerController(IRepository<ServiceHistory> repository, IRepository<Service> services, IRepository<GroupService> repositoryGroupService)
+        private readonly ClientServiceSqlRepository leadServices;
+
+        public ServiceManagerController(IRepository<ServiceHistory> repository, 
+            IRepository<Service> services, 
+            IRepository<GroupService> repositoryGroupService,
+            ClientServiceSqlRepository leadServices)
         {
             Repository = repository;
             Services = services;
             RepositoryGroupService = repositoryGroupService;
+            this.leadServices = leadServices;
         }
 
         private IRepository<ServiceHistory> Repository { get; set; }
         public IRepository<Service> Services { get; }
         public IRepository<GroupService> RepositoryGroupService { get; }
-        public IActionResult Index(string status = "Confirmed", string carService = "")
+        public IActionResult Index(string status = "", string carService = "")
         {
             ViewBag.status = status;
             ViewBag.carService = carService;
 
-            IEnumerable<ServiceHistoryViewModel> model = Repository.
-                GetList().
-                Where(s => status == "" || s.Status == status).
-                Select(s => new ServiceHistoryViewModel(s));
+            IEnumerable<ServiceHistoryViewModel> leads = Repository.
+                GetList().Select(s => new ServiceHistoryViewModel(s));
 
-            model = model.Where(s => carService == "" || s.CarService.Address == carService);
-          
-            return View(model);
+            if (carService != "")
+            {
+                leads = leads.Where(s => s.CarService.Address == carService);
+            }
+
+            if(status != "")
+            {
+                leads = leads.Where(s => s.Status == status);
+            }
+
+            var viewModel = new LeadsListViewModel(leads)
+            {
+                leads = leads
+            };
+            return View(viewModel);
         }
 
         public IActionResult Edit(long LeadId)
         {
-            return View(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+            var services = leadServices.AllServicesFromLead(LeadId);
+
+            var lead = new ServiceHistoryViewModel(Repository.Read(LeadId));
+            lead.Services = services;
+
+            var viewModel = new EditLeadViewModel(lead);
+            
+            return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Edit(ServiceHistoryViewModel model)
         {
-            ServiceHistory service = new ServiceHistory()
-            {
-                ServiceHistoryId = model.id,
-                CarBrand = model.CarBrand,
-                NameClient = model.ClientName,
-                PhoneClient = model.ClientPhone,
-                Status = model.Status,
-                VisitTime = model.VisitTime,
-                PriceService = model.PriceService,
-                TypeCar = model.TypeCar,
-            };
-            Repository.Update(service);
+            var lead = Repository.Read(model.id);
+            lead.CarBrand = model.CarBrand;
+            lead.NameClient = model.ClientName;
+            lead.PhoneClient = model.ClientPhone;
+            lead.Status = model.Status;
+            lead.VisitTime = model.VisitTime;
+            lead.PriceService = model.PriceService;
+            lead.TypeCar = model.TypeCar;
 
-             return RedirectToAction("Details", new { LeadId = model.id });
+            Repository.Update(lead);
+
+            return RedirectToAction("Details", new { LeadId = model.id });
         }
 
         public IActionResult Details(long LeadId)
         {
-            return View(new ServiceHistoryViewModel(Repository.Read(LeadId)));
+            var model = new ServiceHistoryViewModel(Repository.Read(LeadId));
+            model.Services = leadServices.AllServicesFromLead(LeadId);
+            return View(model);
         }
 
         public IActionResult CancelService(long ServiceId, long LeadId)
         {
-            var lead = Repository.Read(LeadId);
-
-            lead.DeleteService(ServiceId);
-            Repository.Update(lead);
+            leadServices.Cancel(ServiceId, LeadId);
 
             return RedirectToAction("Details", new { LeadId = LeadId });
         }
@@ -85,8 +107,8 @@ namespace Avtomoll.Controllers.ServiceManager
         {
             var lead = Repository.Read(LeadId);
             var service = Services.Read(ServiceId);
-            lead.AddService(service);
-            Repository.Update(lead);
+
+            leadServices.Create(lead, service);
 
             return RedirectToAction("Details", new { LeadId = LeadId });
         }
