@@ -26,7 +26,7 @@ namespace Avtomoll.Controllers.Manager
         {
             ListReseptionViewModel model = new ListReseptionViewModel();
             model.NameModel = "reception";
-            model = GetModel(id, model, carService);
+            model = GetModel(page, model, carService);
             return View(model);
         }
 

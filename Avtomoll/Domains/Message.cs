@@ -10,5 +10,7 @@ namespace Avtomoll.Domains
         public string Email { get; set; }
         public string Phone { get; set; }
         public IdentityUser User { get; set; }
+        public string Text { get; set; }
+        public string Status { get; set; }
     }
 }
