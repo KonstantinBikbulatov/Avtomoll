@@ -78,11 +78,6 @@ namespace Avtomoll
                     defaults: new { Controller = "Carservice", action = "Index" });
 
                 endpoints.MapControllerRoute(
-                    name: "Reception",
-                    pattern: "Reception",
-                    defaults: new { Controller = "Reception", action = "Index" });
-
-                endpoints.MapControllerRoute(
                     name: "ServiceManager",
                     pattern: "SM",
                     defaults: new { Controller = "ServiceManager", action = "Index" });

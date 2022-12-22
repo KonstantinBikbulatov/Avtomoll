@@ -22,12 +22,12 @@ namespace Avtomoll.Controllers.Manager
             _repositoryCarservice = repositoryCarservice;
         }
 
-        [HttpGet("manager/reception/{page?}")]
-        public IActionResult index(int page, string carService = "")
+        [HttpGet("manager/reception/{id?}")]
+        public IActionResult index(int id, string carService = "")
         {
             ListReseptionViewModel model = new ListReseptionViewModel();
             model.NameModel = "reception";
-            model = GetModel(page, model, carService);
+            model = GetModel(id, model, carService);
             return View(model);
         }
 
@@ -85,8 +85,8 @@ namespace Avtomoll.Controllers.Manager
 
                 foreach (var item in listService)
                 {
-                    var hour = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
-                    if (item.VisitTime.Minute == 30)
+                    var interval = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
+                    if (item.VisitTime.Minute >= 30)
                     {
                         hour += 1;
                     }
