@@ -1,11 +1,12 @@
-﻿using Avtomoll.ViewModel;
+﻿using Avtomoll.Abstract;
+using Avtomoll.DataAccessLayer;
+using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Avtomoll.Controllers.ManagersManager
 {
@@ -13,28 +14,24 @@ namespace Avtomoll.Controllers.ManagersManager
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly ApplicationDbContext _context;
 
 
-        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            _context = context;
         }
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult List()
-        {
-            
             var model = userManager.Users.ToList()
-                                         .Select(s => new ManagersManagerViewModel(s));
-
+                                       .Select(s => new ManagersManagerViewModel(s));
 
             return View(model);
         }
 
+       
         public IActionResult CreateManager()
         {
             ManagersManagerViewModel model = new ManagersManagerViewModel();
@@ -71,14 +68,13 @@ namespace Avtomoll.Controllers.ManagersManager
 
         public IActionResult Edit(string id)
         {
-            IdentityUser user =  userManager.FindByIdAsync(id).Result;
+            IdentityUser user = userManager.FindByIdAsync(id).Result;
             if (user == null)
             {
                 return NotFound();
             }
             ViewBag.Roles = new List<string> { "Administrator", "ContentManager", "SalesManager" };
-            IdentityRole role = roleManager.FindByIdAsync(id).Result;
-            ManagersManagerViewModel model = new ManagersManagerViewModel { Id = user.Id, Email = user.Email, Password= user.PasswordHash };
+            ManagersManagerViewModel model = new ManagersManagerViewModel(user);
             return View(model);
         }
 
@@ -87,21 +83,23 @@ namespace Avtomoll.Controllers.ManagersManager
         {
             if (ModelState.IsValid)
             {
-                IdentityRole role = roleManager.FindByIdAsync(model.Id).Result;
-                IdentityUser user = userManager.FindByIdAsync(model.Id).Result;
-                if (user != null)
+                IdentityUser identityUser = new IdentityUser
                 {
-                    user.Email = model.Email;
-                    user.UserName = model.Email;
-                    user.PasswordHash = model.Password;
-                    role.Name = model.Role;
-                        
-                    var result =  userManager.UpdateAsync(user);
-                    result = roleManager.UpdateAsync(role);
-                   
-                    return RedirectToAction("Index");
-                  
+                    Email = model.Email,
+                    UserName = model.Email,
+                };
+                IdentityResult userResult = userManager.UpdateAsync(identityUser).Result;
+
+                if (userResult.Succeeded)
+                {
+                    userResult = userManager.AddToRoleAsync(identityUser, model.Role).Result;
                 }
+
+
+
+                    return RedirectToAction("Index");
+
+                
             }
             return View(model);
         }
@@ -111,11 +109,11 @@ namespace Avtomoll.Controllers.ManagersManager
             IdentityUser user = userManager.FindByIdAsync(id).Result;
             if (user != null)
             {
-                IdentityResult result =  userManager.DeleteAsync(user).Result;
+                IdentityResult result = userManager.DeleteAsync(user).Result;
             }
             return RedirectToAction("Index");
 
-           
+
         }
     }
 }
