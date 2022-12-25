@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Avtomoll.DataAccessLayer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Avtomoll.ViewModel
@@ -45,8 +47,5 @@ namespace Avtomoll.ViewModel
             Password = identityUser.PasswordHash;
         }
 
-       
-
-       
     }
 }

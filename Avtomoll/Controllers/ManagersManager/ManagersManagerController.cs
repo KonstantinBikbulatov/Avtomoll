@@ -79,8 +79,11 @@ namespace Avtomoll.Controllers.ManagersManager
         }
 
         [HttpPost]
-        public IActionResult Edit(ManagersManagerViewModel model)
+        public IActionResult Edit(ManagersManagerViewModel model, string id, IdentityUser identity)
         {
+            var user = userManager.FindByIdAsync(id).Result;
+            var roles = userManager.GetRolesAsync(identity).Result;
+
             if (ModelState.IsValid)
             {
                 IdentityUser identityUser = new IdentityUser
@@ -94,6 +97,8 @@ namespace Avtomoll.Controllers.ManagersManager
                 {
                     userResult = userManager.AddToRoleAsync(identityUser, model.Role).Result;
                 }
+
+                
 
 
 
