@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20221225144650_addfeedback.Designer.cs" />
     <Compile Remove="Migrations\20221225154138_addMig.cs" />
     <Compile Remove="Migrations\20221225154138_addMig.Designer.cs" />
+    <Compile Remove="Migrations\20221225154650_addFeedback.cs" />
+    <Compile Remove="Migrations\20221225154650_addFeedback.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

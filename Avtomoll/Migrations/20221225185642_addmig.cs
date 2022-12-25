@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avtomoll.Migrations
 {
-    public partial class addFeedback : Migration
+    public partial class addmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

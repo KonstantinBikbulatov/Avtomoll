@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221225154650_addFeedback")]
-    partial class addFeedback
+    [Migration("20221225185642_addmig")]
+    partial class addmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

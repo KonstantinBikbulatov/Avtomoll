@@ -26,8 +26,8 @@ namespace Avtomoll.ViewModel
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
         [Display(Name = "Подтвердите пароль")]
+        [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
 

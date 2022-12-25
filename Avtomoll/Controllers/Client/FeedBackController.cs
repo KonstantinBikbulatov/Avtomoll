@@ -26,7 +26,7 @@ namespace Avtomoll.Controllers.Manager
             return View(model);
         }
 
-        public IActionResult Create(long id)
+        public IActionResult Create()
         {
             return View();
         }
