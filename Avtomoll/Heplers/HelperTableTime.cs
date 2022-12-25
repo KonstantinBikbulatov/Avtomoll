@@ -14,7 +14,7 @@ namespace Avtomoll.Heplers
         {
             var tagDiv = new TagBuilder("div");
 
-            int countColumn = model.TimeReception.Length;
+            int countColumn = model.TimeReception.GetLength(1);
 
             int limitColumn;
 
@@ -37,16 +37,17 @@ namespace Avtomoll.Heplers
 
             for (int i = 0; i < 2; i++)
             {
-                CreateTable(countColumn, ref timeOpenService, tagDiv, timeReception, limitColumn, progressColumn, model.TimeReception.Length);
+                CreateTable(countColumn, ref timeOpenService, tagDiv, timeReception, limitColumn, progressColumn, model.TimeReception.Length, i);
                 progressColumn += limitColumn;
             }
 
             var writer = new System.IO.StringWriter();
+            tagDiv.AddCssClass("mt-4");
             tagDiv.WriteTo(writer, HtmlEncoder.Default);
             return new HtmlString(writer.ToString());
         }
 
-        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, DataReception[] timeReseption, int limitColumn, int progressColumn, int timeJob)
+        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, DataReception[,] timeReseption, int limitColumn, int progressColumn, int timeJob, int currentTable)
         {
             var tagTable = new TagBuilder("table");
             tagTable.AddCssClass("mt-4");
@@ -79,48 +80,64 @@ namespace Avtomoll.Heplers
             tagTable.InnerHtml.AppendHtml(tagThead);
 
             var tagTbody = new TagBuilder("tbody");
-            tagTr = new TagBuilder("tr");
-
-            count = 0;
             
-            for (int i = progressColumn; i < countColumn; i++)
+            for (int j = 0; j < timeReseption.GetLength(0); j++)
             {
-                var tagTd = new TagBuilder("td");
+                tagTr = new TagBuilder("tr");
+                count = 0;
 
-                if(i < timeReseption.Length)
+                for (int i = progressColumn; i < countColumn; i++)
                 {
-                    if (timeReseption[i] != null)
+                    var tagTd = new TagBuilder("td");
+
+                    if (i < timeReseption.GetLength(1))
                     {
-                        var tagA = new TagBuilder("a");
-                        tagA.MergeAttribute("href", $"/manager/service/Details?LeadId=" + timeReseption[i].ServiceHistoryId);
-                        var tagDiv = new TagBuilder("div");
-                        tagA.Attributes["style"] = "width: 100%; height: 100%;";
-                        tagA.AddCssClass("bg-success");
-                        tagDiv.InnerHtml.SetContent(timeReseption[i].Time.Hour.ToString() + ":" + timeReseption[i].Time.Minute.ToString());
-                        tagA.InnerHtml.AppendHtml(tagDiv);
-                        tagTd.Attributes["style"] = "background-color: #a4dcff;";
-                        tagTd.InnerHtml.AppendHtml(tagA);
+                        if (timeReseption[j, i] != null)
+                        {
+                            var tagA = new TagBuilder("a");
+                            tagA.MergeAttribute("href", $"/manager/service/Details?LeadId=" + timeReseption[j, i].ServiceHistoryId);
+                            var tagDiv = new TagBuilder("div");
+                            tagA.Attributes["style"] = "width: 100%; height: 100%;";
+                            tagA.AddCssClass("bg-success");
+                            tagDiv.InnerHtml.SetContent(timeReseption[j, i].Time.Hour.ToString() + ":" + timeReseption[j, i].Time.Minute.ToString());
+                            tagA.InnerHtml.AppendHtml(tagDiv);
+                            tagTd.Attributes["style"] = "background-color: #a4dcff;";
+                            tagTd.Attributes["colspan"] = $"{timeReseption[j, i].Duration / 30}";
+                            int restOfTime = i + (timeReseption[j, i].Duration / 30);
+
+                            if(restOfTime > countColumn && currentTable == 0)
+                            {
+                                timeReseption[j, limitColumn] = timeReseption[j, i];
+                                timeReseption[j, limitColumn].Duration -= (restOfTime - countColumn) * 30;
+                            }
+
+                            count += timeReseption[j,i].Duration / 30;
+                            tagTd.InnerHtml.AppendHtml(tagA);
+                        }
+                        else
+                        {
+                            var tagA = new TagBuilder("a");
+                            tagA.MergeAttribute("href", $"/manager/reception/{i + 1}");
+                            var tagDiv = new TagBuilder("div");
+                            tagDiv.AddCssClass("table-td__add");
+                            tagA.InnerHtml.AppendHtml(tagDiv);
+                            tagTd.InnerHtml.AppendHtml(tagA);
+                        }
                     }
-                    else
+
+                    tagTr.InnerHtml.AppendHtml(tagTd);
+                    count += 1;
+                    if (count >= limitColumn)
                     {
-                        var tagA = new TagBuilder("a");
-                        tagA.MergeAttribute("href", $"/manager/reception/{i + 1}");
-                        var tagDiv = new TagBuilder("div");
-                        tagDiv.AddCssClass("table-td__add");
-                        tagA.InnerHtml.AppendHtml(tagDiv);
-                        tagTd.InnerHtml.AppendHtml(tagA);
+                        break;
                     }
                 }
 
-                tagTr.InnerHtml.AppendHtml(tagTd);
-                count += 1;
-                if (count == limitColumn)
-                {
-                    break;
-                }
+                tagTbody.InnerHtml.AppendHtml(tagTr);
             }
+           
 
-            tagTbody.InnerHtml.AppendHtml(tagTr);
+
             tagTable.InnerHtml.AppendHtml(tagTbody);
 
             div.InnerHtml.AppendHtml(tagTable);

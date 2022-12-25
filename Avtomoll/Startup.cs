@@ -48,7 +48,8 @@ namespace Avtomoll
             IApplicationBuilder app,
             IWebHostEnvironment env,
             UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager
+            )
         {
             if (env.IsDevelopment())
             {
@@ -92,8 +93,8 @@ namespace Avtomoll
                     defaults: new { Controller = "ManagersManager", action = "Index" });
 
                 endpoints.MapControllerRoute(
-                    name: "Service",
-                    pattern: "S",
+                    name: "AddReception",
+                    pattern: "manager/AddReception/{action}",
                     defaults: new { Controller = "Service", action = "MakeOrder" });
 
                 endpoints.MapControllerRoute(

@@ -209,7 +209,9 @@ namespace Avtomoll.Migrations
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -232,6 +234,7 @@ namespace Avtomoll.Migrations
                     NativeCar = table.Column<string>(nullable: true),
                     ForeignCar = table.Column<string>(nullable: true),
                     LeadTime = table.Column<string>(nullable: true),
+                    LeadTimeInMinuts = table.Column<int>(nullable: false),
                     GroupServiceId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
@@ -262,7 +265,8 @@ namespace Avtomoll.Migrations
                     OrderTime = table.Column<DateTime>(nullable: false),
                     VisitTime = table.Column<DateTime>(nullable: false),
                     PriceService = table.Column<int>(nullable: false),
-                    OrderNumber = table.Column<long>(nullable: false)
+                    OrderNumber = table.Column<long>(nullable: false),
+                    PlaceInCarservice = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

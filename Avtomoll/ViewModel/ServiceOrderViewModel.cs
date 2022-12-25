@@ -12,6 +12,7 @@ namespace Avtomoll.ViewModel
     public class ServiceOrderViewModel
     {
         public ServiceHistoryViewModel ServiceHistory { get; set; }
+        public List<SelectListItem> ListCarservice { get; set; }
         public string CarTypeNative { get; set; }
         public string CarTypeForeign { get; set; }
         public IEnumerable<Service> Services { get; set; }

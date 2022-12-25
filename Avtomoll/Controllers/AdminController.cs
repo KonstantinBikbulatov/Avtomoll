@@ -29,6 +29,7 @@ namespace Avtomoll.Controllers
         {
             var service = _repositoryService.Read(id);
             var listGroup = _repositoryGroupService.GetList();
+
             ServiceViewModel serviceViewModel = new ServiceViewModel
             {
                 ServiceId = id,

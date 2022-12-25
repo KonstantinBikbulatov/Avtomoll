@@ -1,6 +1,7 @@
 ﻿using Avtomoll.Domains;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -35,5 +36,7 @@ namespace Avtomoll.ViewModel
         [Required()]
         [Display(Name = "Время выполнения")]
         public string LeadTime { get; set; }
+        public int minuts { get; set; }
+        public int hours { get; set; }
     }
 }

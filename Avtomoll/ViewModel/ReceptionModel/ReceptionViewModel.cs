@@ -9,10 +9,10 @@ namespace Avtomoll.ViewModel.ReceptionModel
         public DateTime TimeOpenCarservice { get; set; }
         public DateTime Date { get; set; }
         public long IdServiceHistory { get; set; }
-        public DataReception[] TimeReception { get; set; }
-        public ReceptionViewModel(int size)
+        public DataReception[,] TimeReception { get; set; }
+        public ReceptionViewModel(int carsCapacity, int countIntervals)
         {
-            TimeReception = new DataReception[size];
+            TimeReception = new DataReception[carsCapacity, countIntervals];
         }
         //public IEnumerable<ServiceHistoryBriefViewModel> ServiceHistory { get; set; }
     }
@@ -22,5 +22,6 @@ namespace Avtomoll.ViewModel.ReceptionModel
         { }
         public DateTime Time { get; set; }
         public long ServiceHistoryId { get; set; }
+        public int Duration { get; set; }
     }
 }

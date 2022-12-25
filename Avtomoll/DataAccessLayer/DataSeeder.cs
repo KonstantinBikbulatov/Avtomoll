@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Avtomoll.DataAccessLayer
 {
@@ -17,10 +18,10 @@ namespace Avtomoll.DataAccessLayer
         {
             var serviceProvider = provider.GetRequiredService<IRepository<Service>>();
             var groupServiceProvider = provider.GetRequiredService<IRepository<GroupService>>();
-            
+
             if (serviceProvider.GetList().Count() > 0)
                 return;
-            
+
             var serviceJson = new DirectoryInfo("ServicesJson").GetFiles("services.json");
 
             foreach (var service in serviceJson)
@@ -38,19 +39,48 @@ namespace Avtomoll.DataAccessLayer
                     };
 
                     groupServiceProvider.Create(groupService);
-                    
+
                     foreach (var item in group.Service)
                     {
+                        int min = 0;
+                        int hour = 0;
+                        string timeString = "";
+                        if (item.LeadTime != null)
+                        {
+                            timeString = Regex.Replace(item.LeadTime, "[ ]+", " ");
+                            timeString = timeString.Trim();
+                            var timeArr = item.LeadTime.ToString().Split(' ');
+
+                            if (timeArr[1].IndexOf("мин") >= 0)
+                            {
+                                if (timeArr[0] != "")
+                                    min = Int32.Parse(timeArr[0]);
+                            }
+
+                            if (timeArr[1].IndexOf("час") >= 0)
+                            {
+                                if (timeArr[0] != "")
+                                    hour = Int32.Parse(timeArr[0]);
+                            }
+
+                            if (timeArr.Length == 4)
+                            {
+                                if (timeArr[2] != "")
+                                    min = Int32.Parse(timeArr[2]);
+                            }
+
+                        }
+
                         var serviceItem = new Service
                         {
                             Name = item.Name,
                             NativeCar = item.NativeCar,
                             ForeignCar = item.ForeignCar,
-                            LeadTime = item.LeadTime,
+                            LeadTime = timeString,
+                            LeadTimeInMinuts = (hour * 60) + min,
                             GroupService = groupService,
                         };
                         serviceProvider.Create(serviceItem);
-                       
                     }
                 }
             }
@@ -72,7 +102,7 @@ namespace Avtomoll.DataAccessLayer
                 userResult = userManager.AddToRoleAsync(user1, "Administrator").Result;
             }
 
-        
+
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)

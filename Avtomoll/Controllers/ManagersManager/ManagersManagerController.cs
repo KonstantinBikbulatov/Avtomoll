@@ -1,4 +1,5 @@
-﻿using Avtomoll.ViewModel;
+﻿using Avtomoll.DataAccessLayer;
+using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,13 @@ namespace Avtomoll.Controllers.ManagersManager
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        ApplicationDbContext context;
 
-
-        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.context = context;
         }
         public IActionResult Index()
         {
@@ -87,17 +89,24 @@ namespace Avtomoll.Controllers.ManagersManager
         {
             if (ModelState.IsValid)
             {
-                IdentityRole role = roleManager.FindByIdAsync(model.Id).Result;
+                var userRole = context.UserRoles.Where(role => role.UserId == model.Id).First();
+                var role = context.Roles.Find(userRole.RoleId);
+
+                userRole.RoleId = role.Id;
+
+                context.UserRoles.Update(userRole);
+
                 IdentityUser user = userManager.FindByIdAsync(model.Id).Result;
                 if (user != null)
                 {
                     user.Email = model.Email;
                     user.UserName = model.Email;
                     user.PasswordHash = model.Password;
-                    role.Name = model.Role;
+                    //role.Name = model.Role;
                         
                     var result =  userManager.UpdateAsync(user);
-                    result = roleManager.UpdateAsync(role);
+                    //result = roleManager.UpdateAsync(role);
+                    context.SaveChanges();
                    
                     return RedirectToAction("Index");
                   

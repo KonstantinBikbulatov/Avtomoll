@@ -1,4 +1,5 @@
 ﻿using Avtomoll.Abstract;
+using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Avtomoll.ViewModel.ReceptionModel;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,15 @@ namespace Avtomoll.Controllers.Manager
         private int countDate = 7;
         private readonly IRepository<ServiceHistory> _repositoryServiceHistory;
         private readonly IRepository<CarService> _repositoryCarservice;
-        public ReceptionController(IRepository<ServiceHistory> repositoryServiceHistory, IRepository<CarService> repositoryCarservice)
+        private readonly ClientServiceSqlRepository _repositoryClienService;
+
+        public ReceptionController(IRepository<ServiceHistory> repositoryServiceHistory, 
+            IRepository<CarService> repositoryCarservice,
+            ClientServiceSqlRepository repositoryClienService)
         {
             _repositoryServiceHistory = repositoryServiceHistory;
             _repositoryCarservice = repositoryCarservice;
+            _repositoryClienService = repositoryClienService;
         }
 
         public IActionResult index(int page, string carService = "")
@@ -65,7 +71,7 @@ namespace Avtomoll.Controllers.Manager
             for (int i = 0; i < _receptionQuantityPerPage; i++)
             {
                 //day += i;
-                var reception = new ReceptionViewModel((int)result);
+                var reception = new ReceptionViewModel(carservice.CarsCapacity, result);
                 var listService = new List<ServiceHistory>();
 
                 if(carService == "")
@@ -84,14 +90,18 @@ namespace Avtomoll.Controllers.Manager
 
                 foreach (var item in listService)
                 {
-                    var interval = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
-                    if (item.VisitTime.Minute >= 30)
+                    if (item.PlaceInCarservice != null)
                     {
-                        interval += 1;
+                        var interval = (item.VisitTime.Hour - carservice.OpeningTime.Hours) * 2;
+                        if (item.VisitTime.Minute >= 30)
+                        {
+                            interval += 1;
+                        }
+                        reception.TimeReception[(int)item.PlaceInCarservice, interval] = new DataReception();
+                        reception.TimeReception[(int)item.PlaceInCarservice, interval].ServiceHistoryId = item.ServiceHistoryId;
+                        reception.TimeReception[(int)item.PlaceInCarservice, interval].Time = item.VisitTime;
+                        reception.TimeReception[(int)item.PlaceInCarservice, interval].Duration = _repositoryClienService.AllServicesFromLead(item.ServiceHistoryId).Select(s => s.LeadTimeInMinuts).Sum();
                     }
-                    reception.TimeReception[interval] = new DataReception();
-                    reception.TimeReception[interval].ServiceHistoryId = item.ServiceHistoryId;
-                    reception.TimeReception[interval].Time = item.VisitTime;
                 }
                 reception.TimeOpenCarservice = openTime;
                 model.ReceptionForPage.Add(reception);

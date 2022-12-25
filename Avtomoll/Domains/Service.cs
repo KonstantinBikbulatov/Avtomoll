@@ -13,6 +13,7 @@ namespace Avtomoll.Domains
         public string NativeCar { get; set; }
         public string ForeignCar { get; set; }
         public string LeadTime { get; set; }
+        public int LeadTimeInMinuts { get; set; }
         public GroupService GroupService { get; set; }
         public Service()
         {}
@@ -22,7 +23,7 @@ namespace Avtomoll.Domains
             Name = model.Name;
             NativeCar = model.NativeCar;
             ForeignCar = model.ForeignCar;
-            LeadTime = model.LeadTime;
+            LeadTimeInMinuts = (model.hours * 60) + model.minuts;
             GroupService = model.GroupService;
         }
     }

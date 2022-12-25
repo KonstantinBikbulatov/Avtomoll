@@ -25,5 +25,6 @@ namespace Avtomoll.Domains
         public DateTime VisitTime { get; set; }
         public int PriceService { get; set; }
         public long OrderNumber { get; set; }
+        public int? PlaceInCarservice { get; set; }
     }
 }

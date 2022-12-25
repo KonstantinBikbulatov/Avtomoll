@@ -9,7 +9,6 @@
 
 @await Component.InvokeAsync("LeadsCarServicesFilter")
 
-
 @foreach (var reception in Model.ReceptionForPage)
 {
     <h5>@reception.Date.ToLongDateString()</h5>
