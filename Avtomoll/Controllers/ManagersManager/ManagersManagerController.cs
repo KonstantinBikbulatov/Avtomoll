@@ -24,12 +24,16 @@ namespace Avtomoll.Controllers.ManagersManager
             _context = context;
             _signInManager = signInManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(ManagersManagerViewModel model)
         {
-            var model = userManager.Users.ToList()
+
+            var userRole = _context.UserRoles.Where(role => role.UserId == model.Id).FirstOrDefault();
+            var role = _context.Roles.Where(role => role.Id == userRole.RoleId).ToList();
+
+            var model1 = userManager.Users.ToList()
                                        .Select(s => new ManagersManagerViewModel(s));
 
-            return View(model);
+            return View(role);
         }
 
 

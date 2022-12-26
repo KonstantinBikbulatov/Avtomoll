@@ -51,6 +51,7 @@ namespace Avtomoll.ViewModel
             Id = identityUser.Id;
             Email = identityUser.Email;
             Password = identityUser.PasswordHash;
+
         }
 
     }
