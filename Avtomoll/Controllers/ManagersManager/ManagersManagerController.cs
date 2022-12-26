@@ -85,31 +85,24 @@ namespace Avtomoll.Controllers.ManagersManager
         }
 
         [HttpPost]
-        public IActionResult Edit(ManagersManagerViewModel model)
+        public async Task<IActionResult> Edit(ManagersManagerViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var userRole = context.UserRoles.Where(role => role.UserId == model.Id).First();
-                var role = context.Roles.Find(userRole.RoleId);
+                var userRole = context.UserRoles.Where(role => role.UserId == model.Id).FirstOrDefault();
+                var role = context.Roles.Where(role => role.Id == userRole.RoleId).FirstOrDefault();
 
-                userRole.RoleId = role.Id;
-
-                context.UserRoles.Update(userRole);
-
-                IdentityUser user = userManager.FindByIdAsync(model.Id).Result;
+                IdentityUser user = await userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
+                    await userManager.RemoveFromRoleAsync(user, role.Name);
+                    await userManager.AddToRoleAsync(user, model.Role);
+
                     user.Email = model.Email;
                     user.UserName = model.Email;
                     user.PasswordHash = model.Password;
-                    //role.Name = model.Role;
-                        
-                    var result =  userManager.UpdateAsync(user);
-                    //result = roleManager.UpdateAsync(role);
-                    context.SaveChanges();
-                   
+
                     return RedirectToAction("Index");
-                  
                 }
             }
             return View(model);

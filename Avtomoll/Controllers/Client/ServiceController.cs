@@ -31,6 +31,7 @@ namespace Avtomoll.Controllers.Client
             this.carsrvice = carservice;
             ClientService = clientService;
         }
+
         [HttpPost]
         public IActionResult MakeOrder(ServiceOrderViewModel model)
         {
@@ -49,7 +50,8 @@ namespace Avtomoll.Controllers.Client
             long lastId = servicesHistory.GetList().Last().ServiceHistoryId;
             return RedirectToAction("AddServicesList", new { LeadId = lastId });
         }
-        public IActionResult MakeOrder()
+
+        public IActionResult MakeOrder(string place, string date, string time)
         {
             ServiceOrderViewModel model = new ServiceOrderViewModel()
             {
@@ -65,6 +67,14 @@ namespace Avtomoll.Controllers.Client
                     })
                 .ToList()
             };
+
+            if(date != "")
+            {
+                var dateArr = date.Split("/");
+                var timeArr = time.Split(":");
+                model.ServiceHistory.VisitTime = new DateTime(Int32.Parse(dateArr[2]), Int32.Parse(dateArr[0]), Int32.Parse(dateArr[1]), Int32.Parse(timeArr[0]), Int32.Parse(timeArr[1]), 0);
+            }
+
             return View(model);
         }
         public IActionResult AddServicesList(long LeadId)

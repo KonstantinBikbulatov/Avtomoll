@@ -12,6 +12,7 @@ namespace Avtomoll.Heplers
     this IHtmlHelper helper,
     ReceptionViewModel model)
         {
+            DateTime openServiceTime = model.TimeOpenCarservice;
             var tagDiv = new TagBuilder("div");
 
             int countColumn = model.TimeReception.GetLength(1);
@@ -37,7 +38,7 @@ namespace Avtomoll.Heplers
 
             for (int i = 0; i < 2; i++)
             {
-                CreateTable(countColumn, ref timeOpenService, tagDiv, timeReception, limitColumn, progressColumn, model.TimeReception.Length, i);
+                CreateTable(countColumn, ref timeOpenService, tagDiv, timeReception, limitColumn, progressColumn, model.TimeReception.Length, i, model, openServiceTime);
                 progressColumn += limitColumn;
             }
 
@@ -47,7 +48,7 @@ namespace Avtomoll.Heplers
             return new HtmlString(writer.ToString());
         }
 
-        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, DataReception[,] timeReseption, int limitColumn, int progressColumn, int timeJob, int currentTable)
+        private static void CreateTable(int countColumn, ref DateTime time, TagBuilder div, DataReception[,] timeReseption, int limitColumn, int progressColumn, int timeJob, int currentTable, ReceptionViewModel model, DateTime openServiceTime)
         {
             var tagTable = new TagBuilder("table");
             tagTable.AddCssClass("mt-4");
@@ -116,8 +117,9 @@ namespace Avtomoll.Heplers
                         }
                         else
                         {
+                            var resultTime = openServiceTime.AddMinutes(i * 30);
                             var tagA = new TagBuilder("a");
-                            tagA.MergeAttribute("href", $"/manager/reception/{i + 1}");
+                            tagA.MergeAttribute("href", $"/manager/AddReception/?place={j}&date={model.Date.ToShortDateString()}&time={resultTime.ToString("HH:mm")}");
                             var tagDiv = new TagBuilder("div");
                             tagDiv.AddCssClass("table-td__add");
                             tagA.InnerHtml.AppendHtml(tagDiv);
