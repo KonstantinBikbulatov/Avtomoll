@@ -1,4 +1,5 @@
 ﻿using Avtomoll.DataAccessLayer;
+using Avtomoll.Migrations;
 using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +12,17 @@ namespace Avtomoll.Controllers.ManagersManager
     public class ManagersManagerController : Controller
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ApplicationDbContext _context;
 
 
-        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public ManagersManagerController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             _context = context;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
@@ -86,6 +89,11 @@ namespace Avtomoll.Controllers.ManagersManager
 
                 user.Email = model.Email;
                 user.UserName = model.Email;
+
+                await userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+             
+
+                await _signInManager.RefreshSignInAsync(user);
 
                 await userManager.UpdateAsync(user);
 
