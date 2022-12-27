@@ -2,6 +2,7 @@
 using Avtomoll.Domains;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Avtomoll.DataAccessLayer
 {
@@ -26,7 +27,7 @@ namespace Avtomoll.DataAccessLayer
 
         public CarService FindByName(string name)
         {
-            throw new System.NotImplementedException();
+            return context.CarService.Where(c => c.Address == name).FirstOrDefault();
         }
 
         public IEnumerable<CarService> GetList() => context.CarService;

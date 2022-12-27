@@ -4,6 +4,7 @@ using Avtomoll.Domains;
 using Avtomoll.Heplers;
 using Avtomoll.ViewModel;
 using Avtomoll.ViewModel.Manager;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -51,14 +52,23 @@ namespace Avtomoll.Controllers.Client
             return RedirectToAction("AddServicesList", new { LeadId = lastId });
         }
 
-        public IActionResult MakeOrder(string place, string date, string time)
+        public IActionResult MakeOrder(string place = "", string date = "", string time = "")
         {
+            string carservice = "";
+
+            if (date != "")
+            {
+                carservice = HttpContext.Session.GetString("carservice");
+            }
+
             ServiceOrderViewModel model = new ServiceOrderViewModel()
             {
                 ServiceHistory = new ServiceHistoryViewModel(),
                 CarTypeForeign = HelperLeadStatus.CarTypeForeign,
                 CarTypeNative = HelperLeadStatus.CarTypeNative,
+                Carservice = carservice,
                 ListCarservice = carsrvice.GetList()
+                .Where(c => c.Address != carservice)
                 .Select(
                     c => new SelectListItem()
                     {
@@ -68,7 +78,7 @@ namespace Avtomoll.Controllers.Client
                 .ToList()
             };
 
-            if(date != "")
+            if (date != "")
             {
                 var dateArr = date.Split("/");
                 var timeArr = time.Split(":");

@@ -2,6 +2,7 @@
 using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Avtomoll.ViewModel.ReceptionModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,8 @@ namespace Avtomoll.Controllers.Manager
                 {
                     listService = _repositoryServiceHistory.GetList().Where(r => r.VisitTime.Day == date.Day && r.CarService.Address == carService).ToList();
                 }
+
+                HttpContext.Session.SetString("carservice", carService);
 
                 reception.Date = date;
                 date = date.AddDays(1);

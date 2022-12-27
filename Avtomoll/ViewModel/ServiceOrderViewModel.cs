@@ -15,6 +15,7 @@ namespace Avtomoll.ViewModel
         public List<SelectListItem> ListCarservice { get; set; }
         public string CarTypeNative { get; set; }
         public string CarTypeForeign { get; set; }
+        public string Carservice { get; set; }
         public IEnumerable<Service> Services { get; set; }
     }
 }
