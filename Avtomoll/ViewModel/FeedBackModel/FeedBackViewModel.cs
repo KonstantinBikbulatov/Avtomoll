@@ -15,11 +15,19 @@ namespace Avtomoll.ViewModel.FeedBackModel
         [Display(Name = "Имя")]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Required]
         [Display(Name = "Телефон")]
+        [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+
+        [Display(Name = "Время")]
+        public DateTime DateTime { get; set; } = DateTime.Now;
+        public bool IsRead { get; set; } = false;
 
         public FeedBackViewModel()
         {
@@ -32,6 +40,8 @@ namespace Avtomoll.ViewModel.FeedBackModel
             Name= model.Name;
             Email= model.Email;
             Phone= model.Phone;
+            DateTime = model.DateTime;
+            IsRead= model.IsRead;
         }
     }
 }
