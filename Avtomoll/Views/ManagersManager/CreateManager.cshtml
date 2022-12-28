@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Создание менеджеров";
-    List<string> Roles = ViewBag.Roles;
 }
 
 <h1>Создание менеджеров</h1>
@@ -22,25 +21,28 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
                 <select asp-for="Role" class="form-control">
-                    @foreach (var role in Roles)
-                    {
-                        <option>@role</option>
-                    }
-
+                    <option value="Administrator">Администратор</option>
+                    <option value="ContentManager">Менеджер по контенту</option>
+                    <option value="SalesManager">Менеджер по продажам</option>
                 </select>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="List">Возвращение к списку</a>
+    <a asp-action="Index">Возвращение к списку</a>
 </div>
 
 @section Scripts {

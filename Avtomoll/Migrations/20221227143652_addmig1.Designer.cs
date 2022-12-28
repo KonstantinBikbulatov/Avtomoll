@@ -4,14 +4,16 @@ using Avtomoll.DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221227143652_addmig1")]
+    partial class addmig1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,15 +144,6 @@ namespace Avtomoll.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("MessageId");
 
                     b.ToTable("Message");
@@ -171,9 +164,6 @@ namespace Avtomoll.Migrations
 
                     b.Property<string>("LeadTime")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LeadTimeInMinuts")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -215,9 +205,6 @@ namespace Avtomoll.Migrations
 
                     b.Property<string>("PhoneClient")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("PlaceInCarservice")
-                        .HasColumnType("int");
 
                     b.Property<int>("PriceService")
                         .HasColumnType("int");

@@ -49,6 +49,7 @@ namespace Avtomoll
             services.AddTransient<IRepository<Message>, MessageSqlRepository>();
             services.AddTransient<IRepository<CarService>, CarServiceSqlRepository>();
             services.AddTransient<ClientServiceSqlRepository>();
+            services.AddTransient<IRepository<FeedBack>, FeedBackSqlRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

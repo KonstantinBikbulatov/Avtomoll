@@ -23,7 +23,7 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark"
-                               asp-controller="AdminPanelManagers"
+                               asp-controller="ManagersManager"
                                asp-action="Index">
                                     Управление пользователями
                                 </a>
@@ -63,6 +63,39 @@
                                 Таблица заявок
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="FeedBack" asp-action="Create">Обратная связь</a>
+                        </li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                               asp-controller="FeedBack"
+                               asp-action="Index">
+                                    Список обратной связи
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("ContentManager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                               asp-controller="FeedBack"
+                               asp-action="Index">
+                                    Список обратной связи
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("SalesManager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                               asp-controller="FeedBack"
+                               asp-action="Index">
+                                    Список обратной связи
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -73,6 +106,9 @@
             @RenderBody()
         </main>
     </div>
+
+  
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
