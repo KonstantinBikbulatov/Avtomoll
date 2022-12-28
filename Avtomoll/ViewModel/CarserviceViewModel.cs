@@ -27,8 +27,8 @@ namespace Avtomoll.ViewModel
         {
             CarServiceId = model.CarServiceId;
             Address = model.Address;
-            //ClosingTime = model.ClosingTime;
-            //OpeningTine = model.OpeningTime;
+            ClosingTime = model.ClosingTime;
+            OpeningTine = model.OpeningTime;
             CarsCapacity = model.CarsCapacity;
 
         }

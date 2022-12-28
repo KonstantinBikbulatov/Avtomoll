@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Avtomoll.Migrations
 {
-    public partial class addmig : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,7 +70,9 @@ namespace Avtomoll.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true)
+                    Phone = table.Column<string>(nullable: true),
+                    DateTime = table.Column<DateTime>(nullable: false),
+                    IsRead = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,20 +90,6 @@ namespace Avtomoll.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GroupServices", x => x.GroupServiceId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Message",
-                columns: table => new
-                {
-                    MessageId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Message", x => x.MessageId);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,6 +219,29 @@ namespace Avtomoll.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    MessageId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.MessageId);
+                    table.ForeignKey(
+                        name: "FK_Message_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -240,6 +251,7 @@ namespace Avtomoll.Migrations
                     NativeCar = table.Column<string>(nullable: true),
                     ForeignCar = table.Column<string>(nullable: true),
                     LeadTime = table.Column<string>(nullable: true),
+                    LeadTimeInMinuts = table.Column<int>(nullable: false),
                     GroupServiceId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
@@ -270,7 +282,8 @@ namespace Avtomoll.Migrations
                     OrderTime = table.Column<DateTime>(nullable: false),
                     VisitTime = table.Column<DateTime>(nullable: false),
                     PriceService = table.Column<int>(nullable: false),
-                    OrderNumber = table.Column<long>(nullable: false)
+                    OrderNumber = table.Column<long>(nullable: false),
+                    PlaceInCarservice = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -374,6 +387,11 @@ namespace Avtomoll.Migrations
                 name: "IX_ClientServices_ServiceId",
                 table: "ClientServices",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Message_UserId",
+                table: "Message",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_GroupServiceId",

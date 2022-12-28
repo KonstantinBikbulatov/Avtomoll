@@ -153,6 +153,8 @@ namespace Avtomoll.Migrations
 
                     b.HasKey("MessageId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Message");
                 });
 
@@ -461,6 +463,13 @@ namespace Avtomoll.Migrations
                     b.HasOne("Avtomoll.Domains.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.Message", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Avtomoll.Domains.Service", b =>

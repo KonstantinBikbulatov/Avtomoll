@@ -68,7 +68,6 @@ namespace Avtomoll.Controllers.Manager
             }
 
             var timeJob = carservice.ClosingTime.Add(-carservice.OpeningTime);
-
             int result = (timeJob.Hours * 2) + timeJob.Minutes / 30;
 
             var openTime = new DateTime()

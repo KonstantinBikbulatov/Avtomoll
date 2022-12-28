@@ -1,5 +1,4 @@
 ﻿using Avtomoll.DataAccessLayer;
-using Avtomoll.Migrations;
 using Avtomoll.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,9 +56,6 @@ namespace Avtomoll.Controllers.ManagersManager
                 userResult = userManager.AddToRoleAsync(manager, model.Role).Result;
             }
             return RedirectToAction("Index");
-
-
-
 
         }
 

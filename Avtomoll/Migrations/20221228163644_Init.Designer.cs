@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Avtomoll.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221225055717_Init")]
+    [Migration("20221228163644_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,33 @@ namespace Avtomoll.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ClientServices");
+                });
+
+            modelBuilder.Entity("Avtomoll.Domains.FeedBack", b =>
+                {
+                    b.Property<long?>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.ToTable("FeedBacks");
                 });
 
             modelBuilder.Entity("Avtomoll.Domains.GroupService", b =>

@@ -51,6 +51,13 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link text-dark"
+                               asp-controller="Carservice"
+                               asp-action="Index">
+                                Автосервисы
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"
                                asp-controller="ServiceManager"
                                asp-action="Index">
                                 Заявки
@@ -76,16 +83,15 @@
                                 </a>
                             </li>
                         }
-                        @if (User.IsInRole("ContentManager"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark"
                                asp-controller="FeedBack"
                                asp-action="Index">
-                                    Список обратной связи
-                                </a>
-                            </li>
-                        }
+                                Список обратной связи
+                            </a>
+                        </li>
+
                         @if (User.IsInRole("SalesManager"))
                         {
                             <li class="nav-item">
@@ -107,7 +113,7 @@
         </main>
     </div>
 
-  
+
 
 
     <footer class="border-top footer text-muted">

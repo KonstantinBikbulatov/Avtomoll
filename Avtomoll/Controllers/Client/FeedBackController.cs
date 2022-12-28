@@ -21,7 +21,7 @@ namespace Avtomoll.Controllers.Manager
             _repositoryFeedBack = repositoryFeedBack;
         }
 
-        [Authorize(Roles = "Administrator,ContentManager,SalesManager")]
+        //[Authorize(Roles = "Administrator,ContentManager,SalesManager")]
         public IActionResult Index(FeedBackViewModel model1)
         {
 
