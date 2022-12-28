@@ -15,7 +15,7 @@ namespace Avtomoll.Controllers.Client
     public class ServiceController : Controller
     {
         private IRepository<GroupService> groupService;
-        private readonly IRepository<CarService> carsrvice;
+        private readonly IRepository<CarService> carservice;
         private IRepository<Service> services;
         private IRepository<ServiceHistory> servicesHistory;
         private ClientServiceSqlRepository ClientService;
@@ -29,13 +29,15 @@ namespace Avtomoll.Controllers.Client
             this.services = services;
             this.servicesHistory = servicesHistory;
             this.groupService = groupService;
-            this.carsrvice = carservice;
+            this.carservice = carservice;
             ClientService = clientService;
         }
 
         [HttpPost]
         public IActionResult MakeOrder(ServiceOrderViewModel model)
         {
+            string stringCarservice = HttpContext.Session.GetString("carservice");
+            var modelCarservice = carservice.FindByName(stringCarservice);
             ServiceHistory order = new ServiceHistory()
             {
                 CarBrand = model.ServiceHistory.CarBrand,
@@ -45,7 +47,9 @@ namespace Avtomoll.Controllers.Client
                 PhoneClient = model.ServiceHistory.ClientPhone,
                 PriceService = model.ServiceHistory.PriceService,
                 OrderTime = DateTime.Now,
-                VisitTime = model.ServiceHistory.VisitTime
+                VisitTime = model.ServiceHistory.VisitTime,
+                CarService = modelCarservice,
+                PlaceInCarservice = model.PlaceInCarservice
             };
             servicesHistory.Create(order);
             long lastId = servicesHistory.GetList().Last().ServiceHistoryId;
@@ -54,11 +58,11 @@ namespace Avtomoll.Controllers.Client
 
         public IActionResult MakeOrder(string place = "", string date = "", string time = "")
         {
-            string carservice = "";
+            string stringCarservice = "";
 
             if (date != "")
             {
-                carservice = HttpContext.Session.GetString("carservice");
+                stringCarservice = HttpContext.Session.GetString("carservice");
             }
 
             ServiceOrderViewModel model = new ServiceOrderViewModel()
@@ -66,9 +70,9 @@ namespace Avtomoll.Controllers.Client
                 ServiceHistory = new ServiceHistoryViewModel(),
                 CarTypeForeign = HelperLeadStatus.CarTypeForeign,
                 CarTypeNative = HelperLeadStatus.CarTypeNative,
-                Carservice = carservice,
-                ListCarservice = carsrvice.GetList()
-                .Where(c => c.Address != carservice)
+                Carservice = stringCarservice,
+                ListCarservice = carservice.GetList()
+                .Where(c => c.Address != stringCarservice)
                 .Select(
                     c => new SelectListItem()
                     {
@@ -77,6 +81,11 @@ namespace Avtomoll.Controllers.Client
                     })
                 .ToList()
             };
+
+            if(place != "")
+            {
+                model.PlaceInCarservice = Int32.Parse(place);
+            }
 
             if (date != "")
             {

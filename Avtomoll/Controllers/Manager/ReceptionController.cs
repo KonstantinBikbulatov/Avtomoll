@@ -29,6 +29,7 @@ namespace Avtomoll.Controllers.Manager
             _repositoryClienService = repositoryClienService;
         }
 
+        [HttpGet("manager/reception/{page?}")]
         public IActionResult index(int page, string carService = "")
         {
             ListReseptionViewModel model = new ListReseptionViewModel();
@@ -55,7 +56,16 @@ namespace Avtomoll.Controllers.Manager
                 dates.Add(dateTime);
             }
 
-            var carservice = _repositoryCarservice.Read(1);
+            CarService carservice = new CarService();
+
+            if (carService == "")
+            {
+                carservice = _repositoryCarservice.Read(1);
+            }
+            else
+            {
+                carservice = _repositoryCarservice.FindByName(carService);
+            }
 
             var timeJob = carservice.ClosingTime.Add(-carservice.OpeningTime);
 

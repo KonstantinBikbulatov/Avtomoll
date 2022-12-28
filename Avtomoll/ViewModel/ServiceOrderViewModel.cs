@@ -17,5 +17,8 @@ namespace Avtomoll.ViewModel
         public string CarTypeForeign { get; set; }
         public string Carservice { get; set; }
         public IEnumerable<Service> Services { get; set; }
+
+        [HiddenInput]
+        public int PlaceInCarservice { get; set; }
     }
 }

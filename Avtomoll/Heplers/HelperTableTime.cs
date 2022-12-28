@@ -106,12 +106,11 @@ namespace Avtomoll.Heplers
                             tagTd.Attributes["colspan"] = $"{timeReseption[j, i].Duration / 30}";
                             int restOfTime = i + (timeReseption[j, i].Duration / 30);
 
-                            if(restOfTime > countColumn && currentTable == 0)
+                            if(restOfTime > limitColumn && currentTable == 0)
                             {
                                 timeReseption[j, limitColumn] = timeReseption[j, i];
-                                timeReseption[j, limitColumn].Duration -= (restOfTime - countColumn) * 30;
+                                timeReseption[j, limitColumn].Duration -= (restOfTime - limitColumn) * 30;
                             }
-
                             count += timeReseption[j,i].Duration / 30;
                             tagTd.InnerHtml.AppendHtml(tagA);
                         }

@@ -42,9 +42,7 @@ namespace Avtomoll.ViewModel.Manager
             PriceService = entry.PriceService;
             
         }
-
         public long id { get; set; }
-
         public List<Service> Services { get; set; }
         public CarService CarService { get; set; }
         public ClientCar ClientCar { get; set; }
