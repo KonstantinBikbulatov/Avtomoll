@@ -25,6 +25,10 @@ namespace Avtomoll.ViewModel.FeedBackModel
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
+        [Required]
+        [Display(Name = "Сообщение")]
+        public string Description { get; set; }
+
         [Display(Name = "Время")]
         public DateTime DateTime { get; set; } = DateTime.Now;
         public bool IsRead { get; set; } = false;
@@ -41,6 +45,7 @@ namespace Avtomoll.ViewModel.FeedBackModel
             Email= model.Email;
             Phone= model.Phone;
             DateTime = model.DateTime;
+            Description= model.Description;
             IsRead= model.IsRead;
         }
     }

@@ -3,6 +3,7 @@ using Avtomoll.DataAccessLayer;
 using Avtomoll.Domains;
 using Avtomoll.ViewModel.FeedBackModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -50,6 +51,7 @@ namespace Avtomoll.Controllers.Manager
                     Phone = feedBack.Phone,
                     Email = feedBack.Email,
                     DateTime = feedBack.DateTime,
+                    Description = feedBack.Description,
                     IsRead = feedBack.IsRead = false,
                 };
 
@@ -61,6 +63,23 @@ namespace Avtomoll.Controllers.Manager
             return View(feedBack);
         }
 
-      
+
+        public IActionResult Details(long id, FeedBackViewModel model1)
+        {
+            var entity = _repositoryFeedBack.Read(id);
+            var model = new FeedBackDetailsModel(entity);
+
+            return View(model);
+        }
+
+        public IActionResult Delete(long id)
+        {
+           
+            _repositoryFeedBack.Delete(id);
+            
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

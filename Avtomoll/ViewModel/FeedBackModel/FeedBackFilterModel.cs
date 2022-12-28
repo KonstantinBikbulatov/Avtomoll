@@ -8,10 +8,9 @@ namespace Avtomoll.ViewModel.FeedBackModel
 {
     public class FeedBackFilterModel
     {
-        public bool NeedApply { get; set; } = false;
 
         [Display(Name = "Прочитано")]
-        public int MinPrice { get; set; }
+        public int read { get; set; }
 
 
         public List<SelectListItem> ListRead { get; set; }

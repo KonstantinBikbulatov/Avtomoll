@@ -1,0 +1,40 @@
+﻿@model Avtomoll.ViewModel.FeedBackModel.FeedBackDetailsModel
+
+@{
+    ViewData["Title"] = "Детальная информация";
+}
+
+<h1>Детальная информация</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt hidden class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MessageId)
+        </dt>
+        <dd hidden class="col-sm-10">
+            @Html.DisplayFor(model => model.MessageId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            <textarea rows="3">@Html.DisplayFor(model => model.Description)</textarea>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Возвращение к списку сообщении</a>
+</div>
