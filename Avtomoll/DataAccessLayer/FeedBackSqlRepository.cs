@@ -10,7 +10,6 @@ namespace Avtomoll.DataAccessLayer
     public class FeedBackSqlRepository : IRepository<FeedBack>
     {
         private readonly ApplicationDbContext _context;
-        private DbSet<FeedBack> entries;
 
         public FeedBackSqlRepository(ApplicationDbContext context)
         {
@@ -25,8 +24,8 @@ namespace Avtomoll.DataAccessLayer
 
         public void Delete(long id)
         {
-            var lead = Read(id);
-            entries.Remove(lead);
+            var entry = _context.FeedBack.Find(id);
+            _context.FeedBack.Remove(entry);
             _context.SaveChanges();
         }
 
@@ -44,7 +43,6 @@ namespace Avtomoll.DataAccessLayer
         {
             var entry = _context
              .FeedBack
-             .Include(p => p.Name)
              .FirstOrDefault(p => p.MessageId == id);
             return entry;
         }

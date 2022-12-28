@@ -40,6 +40,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Phone)
                 </td>
+                  <td>
+                    @Html.ActionLink("Прочитать сообщение", "Details", new {  id=item.MessageId  }) |
+                    @Html.ActionLink("Удаление", "Delete", new {  id=item.MessageId  })
+                  </td>
             </tr>
         }
     </tbody>
